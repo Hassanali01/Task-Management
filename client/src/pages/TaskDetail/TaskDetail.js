@@ -123,7 +123,7 @@ try{
                                 fontWeight: "bold",
                                 paddingBottom: 1,
                                 marginBottom: 1,
-                              }}> Start Time</p>
+                              }}> Start</p>
                             </div>
                             <div>
                               <p>    {propDetail.startTime}</p>
@@ -135,7 +135,7 @@ try{
                                 fontWeight: "bold",
                                 paddingBottom: 1,
                                 marginBottom: 1,
-                              }}> End Time</p>
+                              }}> End</p>
                             </div>
                             <div>
                               <p>                                   {propDetail.endTime}

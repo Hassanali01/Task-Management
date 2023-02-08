@@ -141,7 +141,21 @@ const Sidebar = () => {
               </li>
 }
 
-            </ul>
+
+           
+            {
+            JSON.parse(localStorage.getItem("timesheet_user437")).isAdmin &&
+              <li className="nav-item">
+                <Link to="/company" className="nav-link">
+                  <i className="nav-icon  fa-solid fa-user"></i>
+                  <p>
+                    Company
+                  </p>
+                </Link>
+              </li>
+}
+
+</ul>
 
           </nav>
           {/* <!-- /.sidebar-menu --> */}

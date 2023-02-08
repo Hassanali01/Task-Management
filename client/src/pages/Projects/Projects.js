@@ -415,7 +415,7 @@ const Projects = () => {
                                         </div>
                                     }
                                     <br />
-                                    <Modal style={{ marginTop: "18vh" }} show={show} onHide={handleClose} animation={false}>
+                                    <Modal style={{ marginTop: "3vh" }} show={show} onHide={handleClose} animation={false}>
                                         <Modal.Header closeButton>
                                             <Modal.Title>Add another Project</Modal.Title>
                                         </Modal.Header>

@@ -1,0 +1,15 @@
+@media(max-width:465px){
+    .phoneNo{
+        margin-left: 11%;
+    }
+    .address{
+        margin-left: 11%;
+    }
+ 
+
+}
+@media(max-width:750px){
+    .addCompany{
+        margin-left: 11%;
+    }
+}

@@ -462,7 +462,7 @@ const ProjectDetail = () => {
                       </Card>
 
                       <Modal
-                        style={{ marginTop: "18vh" }}
+                        style={{ marginTop: "18vh"}}
                         show={PhaseModel}
                         onHide={handleCloseModelPhase}
                         animation={false}
@@ -472,7 +472,7 @@ const ProjectDetail = () => {
                         </Modal.Header>
                         <Modal.Body>
                           <div className="d-flex justify-content-center">
-                            <div style={{ width: "80%" }}>
+                            <div style={{width:'80%'}}>
 
                               <input
                                 value={modelPhaseDetail}
@@ -590,7 +590,7 @@ const ProjectDetail = () => {
                         </Modal.Header>
                         <Modal.Body>
                           <div className="d-flex justify-content-center">
-                            <div style={{ width: "80%" }}>
+                            <div style={{ width: "50%" }}>
 
                               <input
                                 value={modelPhaseDetail}

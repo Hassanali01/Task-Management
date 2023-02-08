@@ -217,21 +217,21 @@ const UserDetail = () => {
             id: "startTime",
             numeric: false,
             disablePadding: false,
-            label: "Start Time",
+            label: "Start",
 
         },
         {
             id: "endTime",
             numeric: true,
             disablePadding: false,
-            label: "End Time",
+            label: "End",
         },
 
         {
             id: "status",
             numeric: false,
             disablePadding: false,
-            label: "status",
+            label: "Status",
             extended: false,
         },
 

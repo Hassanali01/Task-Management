@@ -81,6 +81,7 @@ const DailyTasks = () => {
     const handleShow = () => setShow(true);
     const handleCloseEdit = () => setShowEdit(false);
     const handleShowEdit = () => setShowEdit(true);
+    
 
 
     const item = useLocation();
@@ -181,14 +182,14 @@ const DailyTasks = () => {
             id: "startTime",
             numeric: false,
             disablePadding: false,
-            label: "Start Time",
+            label: "Start",
 
         },
         {
             id: "endTime",
             numeric: true,
             disablePadding: false,
-            label: "End Time",
+            label: "End",
         },
         {
             id: "accept/reject",
@@ -202,7 +203,7 @@ const DailyTasks = () => {
             numeric: false,
             disablePadding: false,
             label: "Remarks",
-            extended:true
+            // extended:true
         },
         {
             id: "Action",
@@ -322,7 +323,7 @@ const DailyTasks = () => {
                 <TableCell align="left">{startTime}</TableCell>
                 <TableCell align="right">{endTime}</TableCell>
                 <TableCell align="right">{status}</TableCell>
-                <TableCell align="right">{remarks}</TableCell>
+                <TableCell align="right" style={{textAlign:'center'}}>{remarks}</TableCell>
                 
                 <TableCell align="right">
                     <Link
@@ -425,7 +426,7 @@ const DailyTasks = () => {
                                     <Button style={{ marginLeft: "auto", backgroundColor: "#0F52BA", color: "white", fontWeight: "700" }} variant="success" onClick={handleShow}>Add Task</Button>{' '}
                                 </div>
                                 <br />
-                                <Modal style={{ marginTop: "10vh" }} show={show} onHide={handleClose} animation={false}>
+                                <Modal style={{ marginTop: "1vh", }} show={show} onHide={handleClose} animation={false} >
                                     <Modal.Header closeButton>
                                         <Modal.Title>Add Task</Modal.Title>
                                     </Modal.Header>
@@ -494,7 +495,7 @@ const DailyTasks = () => {
                                                             <textarea placeholder="Task Description" style={{ width: "100%" }} onChange={(e) => setTaskDescription(e.target.value)}></textarea>
                                                             <br /><br />
 
-                                                            <label for="appt">Start Time: &nbsp;</label>
+                                                            <label for="appt">Start: &nbsp;</label>
                                                             <input type="time" value={taskStartTime} id="appt" name="appt" onChange={(e) => {
 
 
@@ -517,7 +518,7 @@ const DailyTasks = () => {
                                                             &nbsp;&nbsp;
 
                                                             <br />
-                                                            <label for="appt">End Time:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                            <label for="appt">End:&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                             <input value={taskEndTime} type="time" id="appt" name="appt" onChange={(e) => {
 
  
@@ -775,7 +776,7 @@ console.log("TimeChanged",e.target.value)
                                                 <br /><br />
 
 
-                                                <label for="appt">Start Time: &nbsp;</label>
+                                                <label for="appt">Start: &nbsp;</label>
                                                 <input type="time" id="appt" value={taskStartTimeEdit} name="appt" onChange={(e) => {
 
 
@@ -797,7 +798,7 @@ console.log("TimeChanged",e.target.value)
                                                 }}></input>
                                                 &nbsp;&nbsp;
                                                 <br />
-                                                <label for="appt">End Time:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <label for="appt">End:&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                 <input type="time" id="appt" name="appt" value={taskEndTimeEdit} onChange={(e) => {
 
 

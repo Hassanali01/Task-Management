@@ -28,7 +28,9 @@ import TasksAssigned from "./pages/TasksAssigned/TasksAssigned";
 import AssignedTaskDetail from "./pages/TaskDetail/assignedTaskDetail";
 import { useEffect } from "react";
 import TimeSheet from "./pages/UserDetail/TimeSheet";
+import Company from "./pages/companies/Company";
 
+import CompanyDetails from "./pages/companies/CompanyDetails";
 function App() {
 
 
@@ -70,6 +72,9 @@ function App() {
                 <Route path="/datamanagement" element={<DataManagement />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/timesheet" element={<TimeSheet/>}/>
+                <Route path="/company" element={<Company/>}/>
+                
+                <Route path="/companyDetails" element={<CompanyDetails/>}/>
               </Routes>
               <Footer />
             </>

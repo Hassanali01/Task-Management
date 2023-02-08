@@ -1,3 +1,4 @@
+
 const Reducer  = (state,action) =>{
   
     switch(action.type){
@@ -29,7 +30,7 @@ const Reducer  = (state,action) =>{
           default:
           return state
         
-        
+ 
     }
     
 }

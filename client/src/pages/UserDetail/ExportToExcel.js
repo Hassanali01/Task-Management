@@ -1,7 +1,8 @@
 import React from 'react'
 import * as FileSaver from "file-saver";
-import * as XLSX from "xlsx";
-
+import * as XLSX from "sheetjs-style";
+import FileDownloadTwoToneIcon from '@mui/icons-material/FileDownloadTwoTone';
+import { SvgIcon } from '@mui/material';
  const ExportToExcel = ({ apiData, fileName }) => {
   const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
@@ -16,7 +17,16 @@ import * as XLSX from "xlsx";
   };
 
   return (
-    <button onClick={(e) => exportToCSV(apiData, fileName)}>Export</button>
+    <>
+    <button onClick={(e) => exportToCSV(apiData, fileName)}  style={{
+      backgroundColor: "#0096FF",
+      color: "white",
+      borderRadius: "4px",
+      marginRight: "2%",
+      border:'1px',
+      height:'2rem'
+    }}>Export</button>
+    </>
   );
 };
 export default ExportToExcel

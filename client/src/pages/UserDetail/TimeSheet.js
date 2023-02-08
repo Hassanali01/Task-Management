@@ -32,9 +32,11 @@ import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
+
 // import Button from 'react-bootstrap/Button';
 // import Modal from 'react-bootstrap/Modal';
-// import ExportToExcel from "./ExportToExcel";
+import ExportToExcel from "./ExportToExcel";
+import "./TimeSheet.css"
 // import { ExportToExcel } from "./ExportToExcel";
 
 
@@ -55,15 +57,27 @@ const TimeSheet = (props) => {
 
 
 
-  // const [data, setData] = useState([])
-  // const fileName = "myfile"; // here enter filename for your excel file
+  const [data, setData] = useState([])
+  const fileName = "Table-Data"; // here enter filename for your excel file
 
   // useEffect(() => {
   //   const fetchData = () =>{
-  //    axios.put(`${originURL}/tasks/addtask`).then(r => setData(r.data) )
+    
+  //     //  axios.get(`${originURL}/tasks/addtask`).then(r => (setData(r.data.get)(console.log("exceldata22",r.data.get ))))
+  //     axios
+  //     .get(
+  //       `${originURL}/tasks/alltasks/${
+  //         JSON.parse(localStorage.getItem("timesheet_user437")).details._id
+  //       }`
+  //     )
+  //     .then((res) => {
+  //       setData(res.data.get)
+  //       console.log("exceldata22",res.data.get);
+  //     });
   //   }
   //   fetchData()
   // }, [])
+ 
 
   const today = new Date("Mon Jan 16 2023 05:00:00 GMT+0500");
   // const numberOfDaysToAdd = 3;
@@ -263,6 +277,13 @@ const TimeSheet = (props) => {
       label: "Tasks",
       extended: true,
     },
+    // {
+    //   id: "selectProject",
+    //   numeric: false,
+    //   disablePadding: false,
+    //   label: "Project",
+    //   extended: true,
+    // },
     {
       id: "startTime",
       numeric: false,
@@ -297,6 +318,7 @@ const TimeSheet = (props) => {
       disablePadding: false,
       label: "Remarks",
       extended:true,
+      
     },
     {
       id: "delete",
@@ -344,7 +366,7 @@ const TimeSheet = (props) => {
               align={headCell.numeric ? "right" : "left"}
               padding={headCell.disablePadding ? "none" : "normal"}
               sortDirection={orderBy === headCell.id ? order : false}
-              width={headCell.extended === true ? "10%" : "5%"}
+              width={headCell.extended === true ? "5%" : "5%"}
             >
               <TableSortLabel
                 active={orderBy === headCell.id}
@@ -471,6 +493,7 @@ const TimeSheet = (props) => {
       _id,
       date,
       title,
+      selectProject,
       startTime,
       endTime,
       status,
@@ -513,6 +536,7 @@ const TimeSheet = (props) => {
         </TableCell>
 
         <TableCell align="left">{title}</TableCell>
+        {/* <TableCell align="left">{selectProject}</TableCell> */}
 
         {/* <TableCell align="right">{ShortDescription}</TableCell> */}
         <TableCell align="left">{startTime}</TableCell>
@@ -525,7 +549,7 @@ const TimeSheet = (props) => {
 
         <TableCell align="left">{addedby.username}</TableCell>
         <TableCell align="left">{status}</TableCell>
-        <TableCell align="left" style={{maxWidth:'50px'}}>{remarks}<br/></TableCell>
+        <TableCell align="left">{remarks}</TableCell>
 
         <TableCell align="left">
           <Button
@@ -708,15 +732,55 @@ const TimeSheet = (props) => {
             }}
           >
             <TableContainer>
+              <div style={{textAlign:'right'}}>
+                <ExportToExcel apiData={tasks
+                                          .filter(
+                                            //  task => (true)
+                      
+                                            (task) =>
+                                              timestamp(task.date) * 1000 >= minDate &&
+                                              ((timestamp(task.date) * 1000)-86400000)  <= maxDate && (task.title
+                                                .toLowerCase()
+                                                .includes(filteredRequestedProperties.toLowerCase()) ||
+                                                task.addedby.username.toLowerCase().includes(
+                                                    filteredRequestedProperties.toLowerCase())
+                                                                          )) .map((b, index) => {
+                    return {
+                      Date:b.date,
+                      Tasks:b.title,
+                      // Project:b.projectname,
+                      Description:b.description,
+                      Start_Time:b.startTime,
+                      End_Time:b.endTime,
+                      Name:b.addedby.username,
+                      Status:b.status,
+                      Remarks:b.remarks
+                    }}) }
+
+                                                fileName={fileName} />
+                {/* {console.log('exceldata',tasks
+                                          .filter(
+                                            //  task => (true)
+                      
+                                            (task) =>
+                                              timestamp(task.date) * 1000 >= minDate &&
+                                              ((timestamp(task.date) * 1000)-86400000)  <= maxDate) .map((b, index) => {
+                    if( (b.title
+                      .toLowerCase()
+                      .includes(filteredRequestedProperties.toLowerCase()) ||
+                      b.addedby.username.toLowerCase().includes(
+                          filteredRequestedProperties.toLowerCase())
+                                                )){return b}}) )} */}
+                </div>
               <div className="d-flex ml-3 mt-3 mb-1">
                 <h3
                   className="mr-5"
                   style={{ marginTop: "0px", marginBottom: "0px" }}
+                  data-name="View Employee Timesheet"
                 >
                   View Employee Timesheet
                 </h3>
                
-      {/* <ExportToExcel apiData={data} fileName={fileName} /> */}
     
 
                 <div style={{marginRight:'1rem'}}>
@@ -895,7 +959,7 @@ const TimeSheet = (props) => {
                   required
                   style={{ width: "90%", borderRadius: "4px",border:'1px',borderColor:'grey' }}
                   value={modelInput}
-                  onChange={ModelRemarks}
+                  onChange={(event)=>{setModelInput(event.target.value)}}
                 />
               </Modal.Body>
               <Modal.Footer style={{backgroundColor:'	#ececec'}}>
