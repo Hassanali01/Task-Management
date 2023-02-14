@@ -36,9 +36,11 @@ import {
 // import Button from 'react-bootstrap/Button';
 // import Modal from 'react-bootstrap/Modal';
 import ExportToExcel from "./ExportToExcel";
-import "./TimeSheet.css"
-// import { ExportToExcel } from "./ExportToExcel";
 
+import Dropdown from "react-bootstrap/Dropdown";
+
+import "./TimeSheet.css";
+// import { ExportToExcel } from "./ExportToExcel";
 
 var moment = require("moment"); // require
 
@@ -55,14 +57,12 @@ const TimeSheet = (props) => {
   } = props;
   const item = useLocation();
 
-
-
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
   const fileName = "Table-Data"; // here enter filename for your excel file
 
   // useEffect(() => {
   //   const fetchData = () =>{
-    
+
   //     //  axios.get(`${originURL}/tasks/addtask`).then(r => (setData(r.data.get)(console.log("exceldata22",r.data.get ))))
   //     axios
   //     .get(
@@ -77,18 +77,18 @@ const TimeSheet = (props) => {
   //   }
   //   fetchData()
   // }, [])
- 
 
   const today = new Date("Mon Jan 16 2023 05:00:00 GMT+0500");
   // const numberOfDaysToAdd = 3;
-  const currdate = today.setDate(today.getDate()); 
-  const defaultValue =  moment (new Date(today))
+  const currdate = today.setDate(today.getDate());
+  const defaultValue = moment(new Date(today));
 
-
-  const oldDate = new Date("Sun Jan 15 2023 05:00:00 GMT+0500 (Pakistan Standard Time)");
+  const oldDate = new Date(
+    "Sun Jan 15 2023 05:00:00 GMT+0500 (Pakistan Standard Time)"
+  );
   const numberOfDaysToAdd = 1000;
-  const oldate = oldDate.setDate(oldDate.getDate() - numberOfDaysToAdd); 
-  const oldValue = moment (new Date(oldDate))
+  const oldate = oldDate.setDate(oldDate.getDate() - numberOfDaysToAdd);
+  const oldValue = moment(new Date(oldDate));
   // const propDetail = item.state.item;
 
   console.log("userdetailpropdetail");
@@ -111,14 +111,19 @@ const TimeSheet = (props) => {
   const [assignedProject, setAssignedProject] = useState("");
   const [update, setUpdate] = useState(false);
   const [tasks, setTasks] = useState([]);
+
+  const [companies, setCompanies] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState("");
+
   const [modelInput, setModelInput] = useState("");
   const [searchDate, setSearchDate] = useState("");
   const [currentId, setCurrentId] = useState("");
   const [minDate, setMinDate] = useState(oldValue);
   const [maxDate, setMaxDate] = useState(defaultValue);
 
-{console.log("oldValue",oldValue)}
-
+  {
+    console.log("oldValue", oldValue);
+  }
 
   // const [editUsername, setEditUsername] = useState(propDetail.username);
   // const [editFullname, setEditfullname] = useState(propDetail.fullname);
@@ -127,14 +132,15 @@ const TimeSheet = (props) => {
 
   useEffect(() => {
     axios
-      .get(
-        `${originURL}/tasks/alltasks/${
-          JSON.parse(localStorage.getItem("timesheet_user437")).details._id
-        }`
-      )
+      .get(`${originURL}/tasks/alltaskscompany/${selectedCompany}`)
       .then((res) => {
-        setTasks(res.data.get);
+        setTasks(res.data.tasks);
       });
+
+    axios.get(`${originURL}/companies/`).then((res) => {
+      setCompanies(res.data.companies);
+    });
+    document.title='TimeSheet'
   }, [update]);
   console.log("name", tasks);
 
@@ -317,8 +323,7 @@ const TimeSheet = (props) => {
       numeric: false,
       disablePadding: false,
       label: "Remarks",
-      extended:true,
-      
+      extended: true,
     },
     {
       id: "delete",
@@ -622,7 +627,7 @@ const TimeSheet = (props) => {
               }
             }}
             style={{
-              backgroundColor: " #960018",
+              backgroundColor: "#960018",
               color: "white",
               fontSize: "11px",
               width: "25px",
@@ -720,7 +725,7 @@ const TimeSheet = (props) => {
       style={{ backgroundColor: "#f7f7f7", paddingTop: "50px", height: "90%" }}
     >
       <Container
-        style={{ marginTop: "20px", marginBottom: "80px", height: "90%" }}
+        style={{ marginTop: "50px", marginBottom: "80px", height: "90%" }}
       >
         <Box>
           <Paper
@@ -732,32 +737,111 @@ const TimeSheet = (props) => {
             }}
           >
             <TableContainer>
-              <div style={{textAlign:'right'}}>
-                <ExportToExcel apiData={tasks
-                                          .filter(
-                                            //  task => (true)
-                      
-                                            (task) =>
-                                              timestamp(task.date) * 1000 >= minDate &&
-                                              ((timestamp(task.date) * 1000)-86400000)  <= maxDate && (task.title
-                                                .toLowerCase()
-                                                .includes(filteredRequestedProperties.toLowerCase()) ||
-                                                task.addedby.username.toLowerCase().includes(
-                                                    filteredRequestedProperties.toLowerCase())
-                                                                          )) .map((b, index) => {
-                    return {
-                      Date:b.date,
-                      Tasks:b.title,
-                      // Project:b.projectname,
-                      Description:b.description,
-                      Start_Time:b.startTime,
-                      End_Time:b.endTime,
-                      Name:b.addedby.username,
-                      Status:b.status,
-                      Remarks:b.remarks
-                    }}) }
+            
+              <div className="d-flex ml-3 mt-3 mb-1">
+                <h3
+                  className="mr-3"
+                  // style={{ marginTop: "0px", marginBottom: "0px" }}
+                  data-name="View Employee Timesheet"
+                >
+                  Timesheet
+                </h3>
 
-                                                fileName={fileName} />
+                <select style={{height:"40px",marginLeft:'5%',width:'30%'}}
+                  onClick={(e) => {
+                    console.log("dropdown", e.target.value);
+
+                    setSelectedCompany(e.target.value);
+
+                    console.log("selected comapany", selectedCompany);
+
+                    setUpdate(!update);
+                  }}
+                >
+                  {companies.map((c) => (
+                    <option value={c._id}>{c.companyName}</option>
+                  ))}
+                </select>
+
+                <div style={{ display:"flex", height:"40px",marginLeft:'5%'}}>
+                  <label style={{ marginTop:"6px"}}>From:&nbsp;&nbsp;</label>
+                  <input
+                    id="date"
+                    type="date"
+                    style={{ width: "200%" }}
+                    defaultValue={moment(new Date(minDate)).format(
+                      "YYYY-MM-DD"
+                    )}
+                    // defaultValue={oldValue}
+                    onChange={(e) => {
+                      setMinDate(new Date(e.target.value));
+                    }}
+                  />
+                  {console.log("setMinDate", minDate)}
+                </div>
+                <div style={{ display:"flex", height:"40px", marginLeft:'5%' }}>
+                  <label style={{ marginTop:"6px"}}>To:&nbsp;&nbsp;</label>
+                  <input
+                    id="date"
+                    type="date"
+                    style={{ width: "200%" }}
+                    defaultValue={moment(new Date(maxDate)).format(
+                      "YYYY-MM-DD"
+                    )}
+                    // defaultValue={defaultValue}
+                    onChange={(e) => {
+                      setMaxDate(new Date(e.target.value));
+                    }}
+                  />
+                  {console.log("setMinDate", maxDate)}
+                </div>
+
+                <div
+                  style={{
+                    marginLeft: "auto",
+                    display: "flex",
+                    marginTop: "0px",
+                    paddingRight: "10px",
+                  }}
+                >
+                   
+                <ExportToExcel
+                  apiData={
+                    tasks &&
+                    tasks
+                      .filter(
+                        //  task => (true)
+
+                        (task) =>
+                          timestamp(task.date) * 1000 >= minDate &&
+                          timestamp(task.date) * 1000 - 86400000 <= maxDate &&
+                          (task.title
+                            .toLowerCase()
+                            .includes(
+                              filteredRequestedProperties.toLowerCase()
+                            ) ||
+                            task.addedby.username
+                              .toLowerCase()
+                              .includes(
+                                filteredRequestedProperties.toLowerCase()
+                              ))
+                      )
+                      .map((b, index) => {
+                        return {
+                          Date: b.date,
+                          Tasks: b.title,
+                          // Project:b.projectname,
+                          Description: b.description,
+                          Start_Time: b.startTime,
+                          End_Time: b.endTime,
+                          Name: b.addedby.username,
+                          Status: b.status,
+                          Remarks: b.remarks,
+                        };
+                      })
+                  }
+                  fileName={fileName}
+                />
                 {/* {console.log('exceldata',tasks
                                           .filter(
                                             //  task => (true)
@@ -771,59 +855,17 @@ const TimeSheet = (props) => {
                       b.addedby.username.toLowerCase().includes(
                           filteredRequestedProperties.toLowerCase())
                                                 )){return b}}) )} */}
+          
+                 
                 </div>
-              <div className="d-flex ml-3 mt-3 mb-1">
-                <h3
-                  className="mr-5"
-                  style={{ marginTop: "0px", marginBottom: "0px" }}
-                  data-name="View Employee Timesheet"
-                >
-                  View Employee Timesheet
-                </h3>
-               
-    
+              
 
-                <div style={{marginRight:'1rem'}}>
-                  <label>From:</label>
-                  <input
-                    id="date"
-                    type="date"
-                    style={{ width: "90%" }}
-                    defaultValue={moment(new Date(minDate)).format(
-                      "YYYY-MM-DD"
-                    )}
-                    // defaultValue={oldValue}
-                    onChange={(e) => {
-                      setMinDate(new Date(e.target.value));
-                    }}
-                  />
-                  {console.log("setMinDate",minDate)}
-                </div>
-                <div style={{marginRight:'1rem'}}>
-                  <label>To:</label>
-                  <input
-                    id="date"
-                    type="date"
-                    style={{ width: "100%" }}
-                    defaultValue={moment(new Date(maxDate)).format(
-                      "YYYY-MM-DD"
-                    )}
-                    // defaultValue={defaultValue}
-                    onChange={(e) => {
-                      setMaxDate(new Date(e.target.value));
-                    }}
-                  />
-                   {console.log("setMinDate",maxDate)}
-                </div>
-
-                <div
-                  style={{
-                    marginLeft: "auto",
-                    display: "flex",
-                    paddingRight: "10px",
-                  }}
-                >
-                  <input
+                <br />
+            
+              </div>
+              <div style={{ display:'flex',
+                      justifyContent:'center',marginTop:'2%'}}>
+              <input
                     id="tableSearch"
                     onChange={(e) => {
                       console.log("projects", projects);
@@ -832,17 +874,15 @@ const TimeSheet = (props) => {
                     className="form-control "
                     placeholder="Search"
                     style={{
-                      width: "400px",
+                      width: "700px",
                       border: "none",
                       backgroundColor: "#f0f0f0",
                       marginRight: "30px",
-                      marginTop: "1.5rem",
+                     
+                      // marginTop: "1.5rem",
                     }}
                   ></input>
-                </div>
-
-                <br />
-              </div>
+                  </div>
               <Table
                 sx={{ minWidth: 750, maxHeight: 250 }}
                 aria-labelledby="tableTitle"
@@ -858,45 +898,50 @@ const TimeSheet = (props) => {
                   rowCount={5}
                 />
                 <TableBody>
-                  {
-                                        stableSort(tasks
-                                          .filter(
-                                            //  task => (true)
-                      
-                                            (task) =>
-                                              timestamp(task.date) * 1000 >= minDate &&
-                                              ((timestamp(task.date) * 1000)-86400000)  <= maxDate
-                                          ), getComparator(order, orderBy))
-                                            // .slice(pageForTimesheet * rowsPerPageForTimesheet, pageForTimesheet * rowsPerPageForTimesheet + rowsPerPageForTimesheet)
-                                            .map((b, index) => {
-                                                const labelId = `enhanced-table-checkbox-${index}`;
-                                            // console.log("search date",searchDate)
-                                                return (
-                                                    (b.title
-                                                        .toLowerCase()
-                                                        .includes(filteredRequestedProperties.toLowerCase()) ||
-                                                        b.addedby.username.toLowerCase().includes(
-                                                            filteredRequestedProperties.toLowerCase()
-                                                        ) 
-                                                        // ||
-                                                        
-                                                        // b.date
-                                                            // .toLowerCase()
-                                                            // .includes(filteredRequestedProperties.toLowerCase())
-                                                            ) && (
-                                                        <TableRowCustomForTimesheet
-                                                            key={`transaction-${b._id}`}
-                                                            {...b}
-                                                            labelId={labelId}
-                                                            index={index}
-                                                            rowsPerPage={rowsPerPageForTimesheet}
-                                                            page={pageForTimesheet}
-                                                        />
-                                                        
-                                                    )
-                                                );
-                                            })}  
-{/* 
+                  {stableSort(
+                    tasks
+                      ? tasks.filter(
+                          //  task => (true)
+
+                          (task) =>
+                            timestamp(task.date) * 1000 >= minDate &&
+                            timestamp(task.date) * 1000 - 86400000 <= maxDate
+                        )
+                      : [],
+                    getComparator(order, orderBy)
+                  )
+                    // .slice(pageForTimesheet * rowsPerPageForTimesheet, pageForTimesheet * rowsPerPageForTimesheet + rowsPerPageForTimesheet)
+                    .map((b, index) => {
+                      const labelId = `enhanced-table-checkbox-${index}`;
+                      // console.log("search date",searchDate)
+                      return (
+                        (b.title
+                          .toLowerCase()
+                          .includes(
+                            filteredRequestedProperties.toLowerCase()
+                          ) ||
+                          b.addedby.username
+                            .toLowerCase()
+                            .includes(
+                              filteredRequestedProperties.toLowerCase()
+                            )) && (
+                          // ||
+
+                          // b.date
+                          // .toLowerCase()
+                          // .includes(filteredRequestedProperties.toLowerCase())
+                          <TableRowCustomForTimesheet
+                            key={`transaction-${b._id}`}
+                            {...b}
+                            labelId={labelId}
+                            index={index}
+                            rowsPerPage={rowsPerPageForTimesheet}
+                            page={pageForTimesheet}
+                          />
+                        )
+                      );
+                    })}
+                  {/* 
                   {tasks
                     .filter(
                       //  task => (true)
@@ -924,9 +969,6 @@ const TimeSheet = (props) => {
                       // );
                     })} 
                      */}
-                    
-                    
-                   
 
                   {console.log("task", tasks)}
 
@@ -945,24 +987,29 @@ const TimeSheet = (props) => {
             <Modal
               show={show1}
               onHide={handleClose1}
-              style={{ marginTop: "20%"}}
+              style={{ marginTop: "20%" }}
             >
-              <Modal.Header closeButton style={{backgroundColor:'	#ececec'}}>
-                <Modal.Title >
-                  Remarks
-                </Modal.Title>
+              <Modal.Header closeButton style={{ backgroundColor: "	#ececec" }}>
+                <Modal.Title>Remarks</Modal.Title>
               </Modal.Header>
-              <Modal.Body style={{backgroundColor:'	#ececec'}}>
+              <Modal.Body style={{ backgroundColor: "	#ececec" }}>
                 <label>Enter Remarks:</label>
                 <input
                   type="text"
                   required
-                  style={{ width: "90%", borderRadius: "4px",border:'1px',borderColor:'grey' }}
+                  style={{
+                    width: "90%",
+                    borderRadius: "4px",
+                    border: "1px",
+                    borderColor: "grey",
+                  }}
                   value={modelInput}
-                  onChange={(event)=>{setModelInput(event.target.value)}}
+                  onChange={(event) => {
+                    setModelInput(event.target.value);
+                  }}
                 />
               </Modal.Body>
-              <Modal.Footer style={{backgroundColor:'	#ececec'}}>
+              <Modal.Footer style={{ backgroundColor: "	#ececec" }}>
                 <Button
                   variant="secondary"
                   onClick={handleClose1}

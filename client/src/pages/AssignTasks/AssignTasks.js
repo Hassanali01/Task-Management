@@ -107,6 +107,7 @@ const AssignTasks = () => {
         axios.get(`${originURL}/users/teamMembers/${JSON.parse(localStorage.getItem("timesheet_user437")).details._id}`).then((res) => {
             setUsers(res.data.users);
         });
+        document.title='AssignedTasks'
 
     }, [update]);
 
@@ -430,7 +431,7 @@ const AssignTasks = () => {
                                     className="mr-5"
                                     style={{ marginTop: "0px", marginBottom: "0px" }}
                                 >
-                                    Previous Assigned Tasks
+                                    Tasks I've assigned to others
                                 </h3>
                                 <div
                                     style={{

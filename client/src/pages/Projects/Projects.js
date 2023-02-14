@@ -99,7 +99,7 @@ const Projects = () => {
 
 
         }
-
+document.title='Projects'
 
     }, [update]);
 
@@ -371,8 +371,8 @@ const Projects = () => {
 
     return (
 
-            <div className='content-wrapper' style={{ backgroundColor: '#f7f7f7', height: "90%", paddingTop: "50px"  }}>
-                <Container style={{ marginTop: "20px", marginBottom: "80px" }}>
+            <div className='content-wrapper' style={{ backgroundColor: '#f7f7f7', height: "90%", paddingTop: "50px" }}>
+                <Container style={{ marginTop: "50px", marginBottom: "80px" }}>
                     <Box sx={{ width: "95%"}}>
                         <Paper className="p-4" sx={{ width: "100%", mb: 2 }}>
                             <TableContainer >

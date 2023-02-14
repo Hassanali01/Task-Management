@@ -1,43 +1,48 @@
-.admin{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+.admin {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
-.avatar{
-    border-radius: 50%;
-    width: 100px;
-    
+.avatar {
+  border-radius: 50%;
+  width: 100px;
+  color: #ffff;
+
 }
-.logo{
-    text-align: center;
-    color: #ffff;
-    padding: 25px;
+
+.logo {
+  text-align: center;
+  color: #ffff;
+  padding: 25px;
 }
+
 .sidebar {
-    margin: 0;
-    padding: 0;
-    width: 15%;
-    background-color: rgb(42, 41, 41);
-    position: fixed;
-    height: 100%;
-    overflow: auto;
-  }
-  
-  .sidebar a {
-    display: flex;
-    color: #ffff;
-    padding: 16px;
-    text-decoration: none;
-  }
-   .dashboard{
-       display: flex;
-       align-items: center;
-       
-   }
-  /* .sidebar a.active {
+  margin: 0;
+  padding: 0;
+  width: 15%;
+  background-color: rgb(42, 41, 41);
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+.sidebar a {
+  display: flex;
+  color: #ffff;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.dashboard {
+  display: flex;
+  align-items: center;
+
+}
+
+/* .sidebar a.active {
     background-color: #04AA6D;
     color: white;
   }
@@ -46,26 +51,157 @@
     background-color: #555;
     color: white;
   } */
-  
+
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+}
+
+
+
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .sidebar a {
+    float: left;
+  }
+
   div.content {
-    margin-left: 200px;
-    padding: 1px 16px;
-    height: 1000px;
+    margin-left: 0;
   }
-  
-  @media screen and (max-width: 700px) {
-    .sidebar {
-      width: 100%;
-      height: auto;
-      position: relative;
-    }
-    .sidebar a {float: left;}
-    div.content {margin-left: 0;}
+}
+
+@media screen and (max-width: 100px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
   }
-  
-  @media screen and (max-width: 400px) {
-    .sidebar a {
-      text-align: center;
-      float: none;
-    }
-  }
+}
+
+html {
+  background: #F2F2F2;
+}
+
+.logo-holder {
+    background: #f2f2f2;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    margin: 0 auto ;
+    padding-top: 12px;
+    padding-bottom: 24px;
+    -webkit-transform: translateZ(0);
+ }
+
+.bg {
+
+  position: absolute;
+  top: 9px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  background: url(http://boutique.flarework.com/wp-content/themes/boutique/img/logo_large.png) center 0px no-repeat ;
+    background-size: contain;
+    -webkit-filter: drop-shadow(0px 6px 25px rgba(0,0,0,0.5));
+}
+
+.bar {
+    position: relative;
+    height: 8px;
+    background: #6a6a6a;
+    width:  0%;
+    top: 0px;
+    left: 18px;
+    margin-top: 8px;
+    box-shadow: 0 0 3px rgba(192,192,192,0.9);
+    animation: fill 5s infinite alternate, colors 5s infinite alternate;
+}
+
+.bar.fill1 {
+  animation: fill-1 5s infinite alternate, colors 5s infinite alternate;
+}
+
+.bar.fill2 {
+   animation:  fill-2 5s infinite alternate, colors 5s infinite alternate;
+}
+
+
+.bar.fill3 {
+   animation:  fill-3 5s infinite alternate, colors 5s infinite alternate;
+}
+
+
+.bar.fill4 {
+   animation:  fill-4 5s infinite alternate, colors 5s infinite alternate;
+}
+
+.bar.fill5 {
+   animation:  fill-5 5s infinite alternate, colors 5s infinite alternate;
+}
+
+.bar.fill6 {
+   animation:  fill-6 5s infinite alternate, colors 5s infinite alternate;
+}
+
+
+
+@keyframes fill {
+  0%   { width: 0; }
+  33%  { width: 10px;}
+  66%  { width: 10px;}
+  100% { width: 15px; }
+}
+
+@keyframes fill-1 {
+  0%   { width: 0; }
+  33%  { width: 50px;}
+  66%  { width: 20px;}
+  100% { width: 130px; }
+}
+
+@keyframes fill-2 {
+  0%   { width: 0; }
+  33%  { width: 90px;}
+  66%  { width: 70px;}
+  100% { width: 136px; }
+}
+
+@keyframes fill-3 {
+  0%   { width: 0; }
+  33%  { width: 50px;}
+  66%  { width: 24px;}
+  100% { width: 109px; }
+}
+
+@keyframes fill-4 {
+  0%   { width: 0; }
+  33%  { width: 98px;}
+  66%  { width: 34px;}
+  100% { width: 99px; }
+}
+
+@keyframes fill-5 {
+  0%   { width: 0; }
+  33%  { width: 30px;}
+  66%  { width: 10px;}
+  100% { width: 148px; }
+}
+
+
+@keyframes fill-6 {
+  0%   { width: 0; }
+  33%  { width: 48px;}
+  66%  { width: 22px;}
+  100% { width: 140px; }
+}
+
+@keyframes colors {
+  0% { background-color: #5a5a5a;}
+  50% { background-color: #3a3;}
+  100% { background-color: #6a6a6a;}
+}

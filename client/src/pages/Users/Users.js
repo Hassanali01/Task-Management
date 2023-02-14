@@ -67,6 +67,20 @@ const Users = () => {
 
   // });
 
+  const [passwordType, setPasswordType] = useState("password");
+  const [passwordInput, setPasswordInput] = useState("");
+  const handlePasswordChange =(evnt)=>{
+      setPasswordInput(evnt.target.value);
+  }
+  const togglePassword =()=>{
+    if(passwordType==="password")
+    {
+     setPasswordType("text")
+     return;
+    }
+    setPasswordType("password")
+  }
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -88,6 +102,7 @@ const Users = () => {
     // axios.get(`${originURL}${url1}`).then((res) => {
     //   setDepartments(res.data.department);
     // });
+    document.title='Users'
   }, [update]);
 
   function descendingComparator(a, b, orderBy) {
@@ -209,10 +224,12 @@ const Users = () => {
     };
 
     return (
-      <TableHead>
+      <TableHead style={{backgroundColor:'#99AEBB'}}>
         <TableRow>
           {headCells.map((headCell) => (
             <TableCell
+
+          
               key={headCell.id}
               align={headCell.numeric ? "right" : "left"}
               padding={headCell.disablePadding ? "none" : "normal"}
@@ -223,7 +240,7 @@ const Users = () => {
                 active={orderBy === headCell.id}
                 direction={orderBy === headCell.id ? order : "asc"}
                 onClick={createSortHandler(headCell.id)}
-                style={{ fontWeight: "600" }}
+                style={{ fontWeight: "700" }}
               >
                 {headCell.label}
                 {"orderBy" === headCell.id ? (
@@ -323,7 +340,7 @@ const Users = () => {
   };
 
   return (
-    <>
+  
       <div
         className="content-wrapper"
         style={{
@@ -332,11 +349,11 @@ const Users = () => {
           paddingTop: "50px",
         }}
       >
-        <Container style={{ marginTop: "20px", marginBottom: "50px" }}>
-          <Box sx={{ width: "95%" }}>
-            <Paper className="p-4" sx={{ width: "100%", mb: 2 }}>
-              <TableContainer>
-                <div className="d-flex ml-3 mt-3 mb-1">
+        <Container style={{ marginTop: "50px", marginBottom: "50px" }}>
+          <Box >
+            <Paper   sx={{ width: "100%", mb: 2 }}>
+              <TableContainer style={{padding:"0px"}} >
+                <div className="d-flex pt-3 pl-3 pr-3" style={{backgroundColor:'#99AEBB', borderTopLeftRadius:"5px",  borderTopRightRadius:"5px"  }}>
                   <h3
                     className="mr-5"
                     style={{ marginTop: "0px", marginBottom: "0px" }}
@@ -366,6 +383,7 @@ const Users = () => {
                       }}
                     ></input>
                   </div>
+                
 
                   {JSON.parse(localStorage.getItem("timesheet_user437"))
                     .isAdmin && (
@@ -380,10 +398,11 @@ const Users = () => {
                         variant="success"
                         onClick={handleShow}
                       >
-                        Add User
+                       <span> Add User <i class="fa-solid fa-desktop-arrow-down fa-fade"> <i class="fa-solid fa-user-plus"></i></i></span>
                       </Button>{" "}
                     </div>
                   )}
+                    
 
                   <br />
                   <Modal
@@ -421,13 +440,27 @@ const Users = () => {
                             </Row>
                             <Row style={{marginTop:'1%'}}>
                               <Col>
-                                <label>Password:</label>
+                                {/* <label>Password:</label>
                                 <br></br>
                                 <input
+                                type="password"
                                   placeholder="password..."
                                   // style={{ width: "100%" }}
                                   onChange={(e) => setPassword(e.target.value)}
-                                ></input>
+                                ></input> */}
+                                 <div className="row">
+                                  <label>Password:</label>
+            <div style={{display:'flex'}}>
+             
+                    <input type={passwordType} onChange={(e)=>setPassword(e.target.value)}  name="password" class="form-control" placeholder="password..." style={{width:'100%'}}/>
+         
+                     <button onClick={togglePassword} style={{border:'none'}}>
+                     { passwordType==="password"? <i className="bi bi-eye-slash"></i> :<i className="bi bi-eye"></i> }
+                     </button>
+          
+                
+            </div>
+      </div>
                               </Col>
 
                               <Col>
@@ -597,6 +630,9 @@ const Users = () => {
                           } catch (err) {
                             console.log(err);
                           }
+                          setUsername("")
+                          setPassword("")
+                          setDesignation("")
                         }}
                       >
                         Add User
@@ -632,28 +668,9 @@ const Users = () => {
                             .toLowerCase()
                             .includes(
                               filteredRequestedProperties.toLowerCase()
-                            ) ||
-                            b.password
-                              .toLowerCase()
-                              .includes(
-                                filteredRequestedProperties.toLowerCase()
-                              ) ||
-                              b.companyName
-                              .toLowerCase()
-                              .includes(
-                                filteredRequestedProperties.toLowerCase()
-                              ) ||
-                              b.department
-                              .toLowerCase()
-                              .includes(
-                                filteredRequestedProperties.toLowerCase()
-                              )
-                               ||
-                            b.role
-                              .toLowerCase()
-                              .includes(
-                                filteredRequestedProperties.toLowerCase()
-                              ))  && (
+                            ) 
+                          
+                            )  && (
                             <TableRowCustom
                               key={`transaction-${b._id}`}
                               {...b}
@@ -691,7 +708,7 @@ const Users = () => {
           </Box>
         </Container>
       </div>
-    </>
+   
   );
 };
 

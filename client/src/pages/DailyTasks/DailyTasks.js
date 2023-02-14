@@ -97,6 +97,7 @@ const DailyTasks = () => {
         axios.get(`${originURL}/projects/${JSON.parse(localStorage.getItem("timesheet_user437")).details._id}`).then((res) => {
             setProjects(res.data.finduser);
         });
+        document.title="DailyTasks"
 
     }, [update]);
 
@@ -387,7 +388,7 @@ const DailyTasks = () => {
     return (
 
         <div className='content-wrapper' style={{ backgroundColor: '#f7f7f7', paddingTop: "50px" }}>
-            <Container style={{ marginTop: "20px", marginBottom: "50px" }}>
+            <Container style={{ marginTop: "50px", marginBottom: "50px" }}>
                 <Box sx={{ width: "95%" }}>
                     <Paper className="p-4" sx={{ width: "100%", mb: 2 }}>
 
@@ -640,7 +641,7 @@ console.log("TimeChanged",e.target.value)
                                             </Button>
                                             &nbsp;
                                             &nbsp;
-                                            <Button style={{ backgroundColor: "#0F52BA", color: "white", fontWeight: "700" }} variant="primary" onClick={() => {
+                                            <Button  style={{ backgroundColor: "#0F52BA", color: "white", fontWeight: "700" }} variant="primary" onClick={() => {
                                                 
                                                 if ( taskTitle == "" || taskProject == "" ) {
 

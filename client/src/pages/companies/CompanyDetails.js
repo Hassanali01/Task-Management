@@ -16,11 +16,11 @@ import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const CompanyDetails = () => {
   const url = "/companies/";
-  const url1 = "/departments/"
+  const url1 = "/departments/";
   {
     console.log("state");
   }
@@ -28,10 +28,13 @@ const CompanyDetails = () => {
   const [phoneNo, setPhoneNo] = useState("");
   const [disableFields, setDisableFields] = useState(true);
   const [update, setUpdate] = useState(false);
-  const [department, setDepartment] = useState("");
-  const [role, setRole] = useState("");
-  const [descripton, setDescription] = useState("");
-  const [getDepartments, setAddedDepartments] = useState([])
+  const [getDepartments, setAddedDepartments] = useState([]);
+
+  const [companyDetails, setCompanyDetails] = useState({
+    department: "",
+    role: "",
+    description: "",
+  });
 
   const [show, setShow] = useState(false);
 
@@ -59,23 +62,7 @@ const CompanyDetails = () => {
     email: companyData.email,
     logo: companyData.logo,
   });
-  // useEffect(()=>{
-  //     setData({
-  //       companyName:data.companyName,
-  //       contactName:data.contactName,
-  //       shortName:data.shortName,
-  //       phoneNo:data.phoneNo,
-  //       landLineNo:data.landLineNo,
-  //       registrationNo:data.registrationNo,
-  //       city:data.city,
-  //       country:data.country,
-  //       postalCode:data.postalCode,
-  //       address:data.address,
-  //       email:data.email
 
-  //     })
-
-  // },[update])
 
   const handleInput = (e) => {
     let name, value;
@@ -142,8 +129,12 @@ const CompanyDetails = () => {
   };
   useEffect(() => {
     Department();
-
+    document.title = "Details";
   }, [update]);
+
+  const companyDetailsHandler = (e) => {
+    setCompanyDetails((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
   return (
     <>
       <div
@@ -166,271 +157,293 @@ const CompanyDetails = () => {
                 paddingBottom: "20px",
               }}
             >
-              <h3>Company Details</h3>
-              <Button
-                onClick={() => {
-                  setDisableFields(false);
-                }}
-              >
-                Edit
-              </Button>
-              &nbsp; &nbsp;
-              <Button
-                onClick={() => {
-                  handleSubmit();
-                  setDisableFields(true);
-                  // setUpdate(true)
-                  // setUpdateParent(true)
-                  // addhistory();
-                  // Closechildmodal();
-                }}
-                // style={{opacity:"60%"}}
-              >
-                Save
-              </Button>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <h3>Company Details</h3>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <Button
+                    onClick={() => {
+                      setDisableFields(false);
+                    }}
+                  >
+                    Edit
+                  </Button>
+                  &nbsp; &nbsp;
+                  <Button
+                    onClick={() => {
+                      handleSubmit();
+                      setDisableFields(true);
+                      
+                    }}
+         
+                  >
+                    Save
+                  </Button>
+                </div>
+              </div>
               <hr></hr>
               <Container>
-            <Row>
-              <Col>
-                  <label style={{ color: "grey" }} for="Name">
-                    Name:
-                  </label>
-                  <br></br>
+                <Row>
+                  <Col>
+                    <label style={{ color: "grey" }} for="Name">
+                      Name:
+                    </label>
+                    <br></br>
 
-                  <input
-                    type="text"
-                    placeholder="company name"
-                    name="companyName"
-                    value={data.companyName}
-                    onChange={handleInput}
-                    disabled={disableFields}
-                  />
-              </Col>
-              <Col>
-                  <label style={{ color: "grey" }} for="sName">
-                    {" "}
-                    Short Name:
-                  </label>
-                  <br></br>
+                    <input
+                      type="text"
+                      placeholder="company name"
+                      name="companyName"
+                      value={data.companyName}
+                      onChange={handleInput}
+                      disabled={disableFields}
+                    />
+                  </Col>
+                  <Col>
+                    <label style={{ color: "grey" }} for="sName">
+                      {" "}
+                      Short Name:
+                    </label>
+                    <br></br>
 
-                  <input
-                    type="text"
-                    placeholder="short name"
-                    name="shortName"
-                    value={data.shortName}
-                    onChange={handleInput}
-                    disabled={disableFields}
-                  />
-           </Col>
-           <Col>
-             
-                  <label style={{ color: "grey"}} for="cName">
-                    {" "}
-                    Contact Name:
-                  </label>
-                  <br></br>
+                    <input
+                      type="text"
+                      placeholder="short name"
+                      name="shortName"
+                      value={data.shortName}
+                      onChange={handleInput}
+                      disabled={disableFields}
+                    />
+                  </Col>
+                  <Col>
+                    <label style={{ color: "grey" }} for="cName">
+                      {" "}
+                      Contact Name:
+                    </label>
+                    <br></br>
 
-                  <input
-                    type="text"
-                    placeholder="contact name"
-                    name="contactName"
-                    value={data.contactName}
-                    onChange={handleInput}
-                    disabled={disableFields}
-                  />
+                    <input
+                      type="text"
+                      placeholder="contact name"
+                      name="contactName"
+                      value={data.contactName}
+                      onChange={handleInput}
+                      disabled={disableFields}
+                    />
+                  </Col>
+                  <Col>
+                    <label style={{ color: "grey" }} for="phone">
+                      {" "}
+                      Phone No:
+                    </label>
+                    <br></br>
+
                 
-                </Col>
-                <Col>
-                  <label style={{ color: "grey" }} for="phone">
-                    {" "}
-                    Phone No:
-                  </label>
-                  <br></br>
-
-                  {/* <InputGroup.Text style={{width:'11%'}}>+92</InputGroup.Text> */}
-                  <input
-                    type="number"
-                    required
-                    name="phoneNo"
-                    placeholder="phone no"
-                    value={data.phoneNo}
-                    onInput={(e) => {
-                      e.target.value = Math.max(0, parseInt(e.target.value))
-                        .toString()
-                        .slice(0, 11);
-                    }}
-                    onChange={handleInput}
-                    // defaultValue={emp.primaryphone}
-                    // value={props.value8}
-                    // onChange={handleinput}
-                    // onChange={props.onChange}
-                    // onChange={handleFormData("phone")}
-                    disabled={disableFields}
-                  />
+                    <input
+                      type="number"
+                      required
+                      name="phoneNo"
+                      placeholder="phone no"
+                      value={data.phoneNo}
+                      onInput={(e) => {
+                        e.target.value = Math.max(0, parseInt(e.target.value))
+                          .toString()
+                          .slice(0, 11);
+                      }}
+                      onChange={handleInput}
+                 
+                      disabled={disableFields}
+                    />
                   </Col>
                   {/* </Form.Group> */}
-              
-                  </Row>
-            
-            
-            <Row>
-            <Col>
-                
-                <label style={{ color: "grey"}} for="landline">
-                  LandLine No:
-                </label>
-                <br></br>
+                </Row>
 
-                <input
-                  type="number"
-                  placeholder="LandLine no"
-                  name="phoneNo"
-                  value={data.landLineNo}
-                  onChange={handleInput}
-                  disabled={disableFields}
-                />
-                </Col>
-              <Col>
-                  <label style={{ color: "grey",marginTop: "2%" }} for="registration">
-                    {" "}
-                    Registration No:
-                  </label>
-                  <br></br>
-                  <input
-                    placeholder="registration no"
-                    name="registrationNo"
-                    value={data.registrationNo}
-                    onChange={handleInput}
-                    disabled={disableFields}
-                  />
+                <Row>
+                  <Col>
+                    <label style={{ color: "grey" }} for="landline">
+                      LandLine No:
+                    </label>
+                    <br></br>
+
+                    <input
+                      type="number"
+                      placeholder="LandLine no"
+                      name="phoneNo"
+                      value={data.landLineNo}
+                      onChange={handleInput}
+                      disabled={disableFields}
+                    />
                   </Col>
                   <Col>
-     
-                  <label style={{ color: "grey",marginTop: "2%" }} for="city">
-                    {" "}
-                    City:
-                  </label>
-                  <br></br>
-
-                  <input
-                    type="text"
-                    placeholder="city"
-                    name="city"
-                    value={data.city}
-                    onChange={handleInput}
-                    disabled={disableFields}
-                  />
-         </Col>
-         <Col>
-               
-                  <label style={{ color: "grey",marginTop: "2%" }} for="country">
-                    Country:
-                  </label>
-                  <br></br>
-
-                  <input
-                    type="text"
-                    placeholder="country"
-                    name="country"
-                    value={data.country}
-                    onChange={handleInput}
-                    disabled={disableFields}
-                  />
-           </Col>
-           
-         
-                  </Row>
-            
-            <Row>
-            <Col>
-                  <label style={{ color: "grey",marginTop: "2%" }} for="postal">
-                    Postal Code:
-                  </label>
-                  <br></br>
-
-                  <input
-                    placeholder="postal code"
-                    name="postalCode"
-                    value={data.postalCode}
-                    onChange={handleInput}
-                    disabled={disableFields}
-                  />
-         
-         </Col>
-         <Col>
-                  <label style={{ color: "grey",marginTop: "2%" }} for="address">
-                    Address:
-                  </label>
-                  <br></br>
-                  <input
-                    placeholder="address"
-                    name="address"
-                    value={data.address}
-                    onChange={handleInput}
-                    disabled={disableFields}
-                  />
-                  </Col>
-              
-              <Col>
-              
-               
-                  <label style={{ color: "grey",marginTop: "1%" }}>Email:</label>
-                  <br></br>
-                  <input
-                    placeholder="email"
-                    name="email"
-                    value={data.email}
-                    onChange={handleInput}
-                    disabled={disableFields}
-                  />
-                  <br></br>
+                    <label
+                      style={{ color: "grey", marginTop: "2%" }}
+                      for="registration"
+                    >
+                      {" "}
+                      Registration No:
+                    </label>
+                    <br></br>
+                    <input
+                      placeholder="registration no"
+                      name="registrationNo"
+                      value={data.registrationNo}
+                      onChange={handleInput}
+                      disabled={disableFields}
+                    />
                   </Col>
                   <Col>
+                    <label
+                      style={{ color: "grey", marginTop: "2%" }}
+                      for="city"
+                    >
+                      {" "}
+                      City:
+                    </label>
+                    <br></br>
 
-<label for="logo" style={{ color: "grey",marginTop: "1%" }}>
+                    <input
+                      type="text"
+                      placeholder="city"
+                      name="city"
+                      value={data.city}
+                      onChange={handleInput}
+                      disabled={disableFields}
+                    />
+                  </Col>
+                  <Col>
+                    <label
+                      style={{ color: "grey", marginTop: "2%" }}
+                      for="country"
+                    >
+                      Country:
+                    </label>
+                    <br></br>
+
+                    <input
+                      type="text"
+                      placeholder="country"
+                      name="country"
+                      value={data.country}
+                      onChange={handleInput}
+                      disabled={disableFields}
+                    />
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col>
+                    <label
+                      style={{ color: "grey", marginTop: "2%" }}
+                      for="postal"
+                    >
+                      Postal Code:
+                    </label>
+                    <br></br>
+
+                    <input
+                      placeholder="postal code"
+                      name="postalCode"
+                      value={data.postalCode}
+                      onChange={handleInput}
+                      disabled={disableFields}
+                    />
+                  </Col>
+                  <Col>
+                    <label
+                      style={{ color: "grey", marginTop: "2%" }}
+                      for="address"
+                    >
+                      Address:
+                    </label>
+                    <br></br>
+                    <input
+                      placeholder="address"
+                      name="address"
+                      value={data.address}
+                      onChange={handleInput}
+                      disabled={disableFields}
+                    />
+                  </Col>
+
+                  <Col>
+                    <label style={{ color: "grey", marginTop: "1%" }}>
+                      Email:
+                    </label>
+                    <br></br>
+                    <input
+                      placeholder="email"
+                      name="email"
+                      value={data.email}
+                      onChange={handleInput}
+                      disabled={disableFields}
+                    />
+                    <br></br>
+                  </Col>
+                  <Col>
+                    <label
+                      for="logo"
+                      style={{ color: "grey", marginTop: "1%" }}
+                    >
                       Company Logo:
                     </label>
-            
-                  <Form className="mb-3" controlId="formGridProfilePic">
-                    <Form.Label htmlFor="uploadpic">
-                      {companyData.logo ? (
-                        <img
-                          src={companyData.logo}
-                          alt="Admin"
-                          // className="rounded-circle"
-                          width={190}
-                          height={80}
-                        />
-                      ) : (
-                        // <img
-                        // style={{backgroundImage:'cover'}}
-                        //   src={pp}
-                        //   alt="Admin"
-                        //   // className="rounded-circle"
-                        //   width={190}
-                        //   height={80}
-                        // />
-                        <div style={{width:'190px',height:"80px",border:'1px solid grey'}}>
 
-                          <div style={{textAlign:'center',paddingTop:'15%',color:'grey'}}>Upload logo</div>
-                        </div>
-                      )}
-                    </Form.Label>
+                    <Form className="mb-3" controlId="formGridProfilePic">
+                      <Form.Label htmlFor="uploadpic">
+                        {companyData.logo ? (
+                          <img
+                            src={companyData.logo}
+                            alt="Admin"
+                            // className="rounded-circle"
+                            width={190}
+                            height={80}
+                          />
+                        ) : (
+                          // <img
+                          // style={{backgroundImage:'cover'}}
+                          //   src={pp}
+                          //   alt="Admin"
+                          //   // className="rounded-circle"
+                          //   width={190}
+                          //   height={80}
+                          // />
+                          <div
+                            style={{
+                              width: "190px",
+                              height: "80px",
+                              border: "1px solid grey",
+                            }}
+                          >
+                            <div
+                              style={{
+                                textAlign: "center",
+                                paddingTop: "15%",
+                                color: "grey",
+                              }}
+                            >
+                              Upload logo
+                            </div>
+                          </div>
+                        )}
+                      </Form.Label>
 
-                    <Form.Control
-                      type="file"
-                      name="logo"
-                      // value={emp.profilepic}
-                      // defaultValue={profilepic}
-                      style={{ display: "none" }}
-                      id="uploadpic"
-                      // onChange={(e)=>setData({...data,[logo]:e.target.files[0]})}
-                    />
-                  </Form>
-              
-                
-                </Col>
-                {/* <Col>
+                      <Form.Control
+                        type="file"
+                        name="logo"
+                        // value={emp.profilepic}
+                        // defaultValue={profilepic}
+                        style={{ display: "none" }}
+                        id="uploadpic"
+                        // onChange={(e)=>setData({...data,[logo]:e.target.files[0]})}
+                      />
+                    </Form>
+                  </Col>
+                  {/* <Col>
                
                     <label for="logo" style={{ color: "grey",marginTop: "2%" }}>
                       Company Logo:
@@ -474,91 +487,102 @@ const CompanyDetails = () => {
                   </Form>
                 
                   </Col> */}
-                  </Row>
-                  </Container>
-             
+                </Row>
+              </Container>
+
               <br></br>
               <br></br>
-              <h3>Departments</h3>
-              <Button style={{ alignItems: "right" }} onClick={handleShow}>
-                Add Department
-              </Button>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <h3>Departments</h3>
+                <Button onClick={handleShow}>Add Department</Button>
+              </div>
               <hr></hr>
 
-              
-            <div className="card-body">
-              <div className="table-responsive">
-                <div style={{ height:"auto", width: "100%" }}>
-                  {/* {view ? (
+              <div className="card-body">
+                <div className="table-responsive">
+                  <div style={{ height: "auto", width: "100%" }}>
+                    {/* {view ? (
                       <Table data={getdata}></Table>
                     ) : ( */}
-                  <Container>
-                    <Row>
-                     
+                    <Container>
+                      <Row>
+                        {console.log(("console123", getDepartments))}
+                        {getDepartments.map((d, i) => {
+                          console.log("get d", d);
 
-                    {console.log(("console123",getDepartments))}
-                      {getDepartments.map((d, i) => {
-                        console.log("get d",d)
-                   
-                        return (
-                          <>
-                            <Col xs="12" xl="3" lg="4" md="6" sm="6">
-                              <Card>
-                              
-                                <Card.Title className="id" style={{textAlign:'center',fontWeight:'bold',marginBottom:'0',marginTop:'3%'}}>Department</Card.Title>
-                                <hr></hr>
-                                <Card.Body>
-                                  
-                                  <Card.Text style={{justifyContent:'center'}}><span style={{fontWeight:'bold'}}>Name:&nbsp;</span>{d.name}</Card.Text>
-                                  <Card.Text style={{justifyContent:'center'}}><span style={{fontWeight:'bold'}}>Role:&nbsp;</span>{d.role}</Card.Text>
-                                  <Card.Text style={{justifyContent:'center'}}><span style={{fontWeight:'bold'}}>Description:&nbsp;</span>{d.description}</Card.Text>
-                                  <div>
-                                  {/* <a
-                  className="btn add-btn "
-                  data-bs-toggle="modal"
-                  data-bs-target="#add_employee"
-                  // onClick={handleShow}
-                >
-                   */}
-         
-         <Button
-         onClick={async () => {
-          await axios.delete(`${originURL}${url1}${d._id}`).then(() => {
-            setUpdate(!update)
-          })
-        }}
-         
-          >
-            <i class="bi bi-trash"></i>
-          </Button>
-                  {/* <span style={{color:'white'}}>Details</span>
-                   */}
-                {/* </a> */}
-              </div>
-                                  {/* <Button onClick={modalShow} >Details</Button> */}
-             
-                                  {/* <div className='d-flex justify-content-center align-items-center'><p className="px-2 text-center buttoncolor rounded" style={{ width: '70%' }}>Add Employee</p></div> */}
-                                </Card.Body>
-                              </Card>
-                              
-                            </Col>
+                          return (
+                            <>
+                              <Col xs="12" xl="3" lg="4" md="6" sm="6">
+                                <Card>
+                                  <Card.Title
+                                    className="id"
+                                    style={{
+                                      textAlign: "center",
+                                      fontWeight: "bold",
+                                      marginBottom: "0",
+                                      marginTop: "3%",
+                                    }}
+                                  >
+                                    Department
+                                  </Card.Title>
+                                  <hr></hr>
+                                  <Card.Body>
+                                    <Card.Text
+                                      style={{ justifyContent: "center" }}
+                                    >
+                                      <span style={{ fontWeight: "bold" }}>
+                                        Name:&nbsp;
+                                      </span>
+                                      {d.name}
+                                    </Card.Text>
+                                    <Card.Text
+                                      style={{ justifyContent: "center" }}
+                                    >
+                                      <span style={{ fontWeight: "bold" }}>
+                                        Role:&nbsp;
+                                      </span>
+                                      {d.role}
+                                    </Card.Text>
+                                    <Card.Text
+                                      style={{ justifyContent: "center" }}
+                                    >
+                                      <span style={{ fontWeight: "bold" }}>
+                                        Description:&nbsp;
+                                      </span>
+                                      {d.description}
+                                    </Card.Text>
+                                    <div>
+               
 
-                          </>
-                        );
-                      
-                      
-                      })}
-                     
-                      
-                    </Row>
-                  </Container>
-                  {/* )
+                                      <Button
+                                        onClick={async () => {
+                                          await axios
+                                            .delete(
+                                              `${originURL}${url1}${d._id}`
+                                            )
+                                            .then(() => {
+                                              setUpdate(!update);
+                                            });
+                                        }}
+                                      >
+                                        <i class="bi bi-trash"></i>
+                                      </Button>
+                                    
+                                    </div>
+                                
+                                  </Card.Body>
+                                </Card>
+                              </Col>
+                            </>
+                          );
+                        })}
+                      </Row>
+                    </Container>
+                    {/* )
                   } */}
+                  </div>
                 </div>
               </div>
-            </div>
-
-
 
               <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
@@ -574,8 +598,11 @@ const CompanyDetails = () => {
                       <Form.Control
                         type="text"
                         placeholder="department name"
-                        value={department}
-                        onChange={(e) => setDepartment(e.target.value)}
+                        // value={department}
+                        name="department"
+                        value={companyDetails.department}
+                        // onChange={(e) => setDepartment(e.target.value)}
+                        onChange={companyDetailsHandler}
                         autoFocus
                       />
                     </Form.Group>
@@ -587,8 +614,11 @@ const CompanyDetails = () => {
                       <Form.Control
                         type="text"
                         placeholder="Role"
-                        value={role}
-                        onChange={(e) => setRole(e.target.value)}
+                        name="role"
+                        // value={role}
+                        value={companyDetails.role}
+                        onChange={companyDetailsHandler}
+                        // onChange={(e) => setRole(e.target.value)}
                       />
                     </Form.Group>
                     <Form.Group
@@ -596,12 +626,15 @@ const CompanyDetails = () => {
                       controlId="exampleForm.ControlTextarea1"
                     >
                       <Form.Label> Description</Form.Label>
-                      <Form.Control 
-                      as="textarea" 
-                      rows={3} 
-                      value={descripton}
-                      onChange={(e)=>setDescription(e.target.value)}
-                       />
+                      <Form.Control
+                        as="textarea"
+                        rows={3}
+                        name="description"
+                        value={companyDetails.description}
+                        onChange={companyDetailsHandler}
+                        // value={descripton}
+                        // onChange={(e)=>setDescription(e.target.value)}
+                      />
                     </Form.Group>
                   </Form>
                 </Modal.Body>
@@ -609,35 +642,35 @@ const CompanyDetails = () => {
                   <Button style={{ background: "grey" }} onClick={handleClose}>
                     Close
                   </Button>
-                  <Button variant="primary"
-                         onClick={async () => {
-                          try {
-                            const addedUser = await axios.post(
-                              `${originURL}${url1}`,
-                              {
-                                name: department,
-                                role: role,
-                                description: descripton,
-                                company:data._id
-                              
-                              }
-                            );
-
-                            handleClose();
-                            setUpdate(!update);
-                          } catch (err) {
-                            console.log(err);
+                  <Button
+                    variant="primary"
+                    onClick={async () => {
+                      try {
+                        const addedUser = await axios.post(
+                          `${originURL}${url1}`,
+                          {
+                            name: companyDetails.department,
+                            role: companyDetails.role,
+                            description: companyDetails.description,
+                            company: data._id,
                           }
-                          setDepartment("")
-                          setRole("")
-                          setDescription("")
-                        }}
+                        );
+
+                        handleClose();
+                        setUpdate(!update);
+                      } catch (err) {
+                        console.log(err);
+                      }
+                      // setDepartment("")
+                      // setRole("")
+                      // setDescription("")
+                      setCompanyDetails("");
+                    }}
                   >
                     Add
                   </Button>
                 </Modal.Footer>
               </Modal>
-              
             </Paper>
           </Box>
         </Container>

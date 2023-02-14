@@ -1,4 +1,4 @@
-import React from "react"
+import React,{useEffect} from "react"
 // import Sidebar from "../../components/sidebar/Sidebar";
 // import Navbar from "../../components/navbar/Navbar";
 import "./home.css";
@@ -11,15 +11,19 @@ import RangeBarChartAdvanced from "../../Components/chart2/Chart2";
 
 
 const Dashboard = () => {
+  useEffect(()=>{
+    document.title='Dashboard'
+
+  })
   return (
     <div
       className="content-wrapper"
-      style={{ backgroundColor: "#f7f7f7", paddingTop: "50px", paddingLeft: "30px", paddingRight: "30px" }}
+      style={{ backgroundColor: "#f7f7f7", paddingTop: "50px", paddingLeft: "30px", paddingRight: "30px"}}
     >
       {/* <Sidebar /> */}
       <div className="homeContainer">
         {/* <Navbar /> */}
-        <div className="widgets d-flex">
+        <div className="widgets d-flex" style={{marginTop:'2%'}}>
           <Widget type="user"/>
           <Widget type="project" />
           <Widget type="earning" />

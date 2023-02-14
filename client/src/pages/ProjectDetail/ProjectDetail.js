@@ -142,7 +142,7 @@ const ProjectDetail = () => {
             paddingTop: "50px",
           }}
         >
-          <Container style={{ marginTop: "20px" }}>
+          <Container style={{ marginTop: "50px" }}>
             <Box sx={{ width: "95%" }}>
               <Paper className="p-4" sx={{ width: "100%", mb: 2 }}>
                 {/* {JSON.stringify(propDetail)} */}

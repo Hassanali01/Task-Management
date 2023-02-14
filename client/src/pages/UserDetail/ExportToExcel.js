@@ -2,6 +2,8 @@ import React from 'react'
 import * as FileSaver from "file-saver";
 import * as XLSX from "sheetjs-style";
 import FileDownloadTwoToneIcon from '@mui/icons-material/FileDownloadTwoTone';
+import { solid, regular, brands, icon } from '@fortawesome/fontawesome-svg-core/import.macro' 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { SvgIcon } from '@mui/material';
  const ExportToExcel = ({ apiData, fileName }) => {
   const fileType =
@@ -25,7 +27,12 @@ import { SvgIcon } from '@mui/material';
       marginRight: "2%",
       border:'1px',
       height:'2rem'
-    }}>Export</button>
+    }}>
+      
+ 
+   <div style={{display:'flex',justifyContent:'space-between'}}>Export&nbsp;&nbsp;<i class="fa-solid fa-desktop-arrow-down fa-fade" ><i class="fa-sharp fa-solid fa-download"></i></i></div>
+   
+ </button>
     </>
   );
 };

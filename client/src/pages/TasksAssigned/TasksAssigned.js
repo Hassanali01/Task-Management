@@ -118,7 +118,7 @@ const TasksAssigned = () => {
         taskProject && axios.get(`${originURL}/projectphase/getprojectphases/${taskProject}`).then((res) => {
             setProjectPhases(res.data.phases);
         });
-
+document.title='My priorities'
     }, [update]);
 
 
@@ -370,7 +370,7 @@ const TasksAssigned = () => {
 
 
 
-            <Container style={{ marginTop: "20px", marginBottom: "50px" }}>
+            <Container style={{ marginTop: "50px", marginBottom: "50px" }}>
                 <Box sx={{ width: "95%" }}>
                     <Paper className="p-4" sx={{ width: "100%", mb: 2 }}>
 
@@ -380,7 +380,7 @@ const TasksAssigned = () => {
                                     className="mr-5"
                                     style={{ marginTop: "0px", marginBottom: "0px" }}
                                 >
-                                    Tasks Assigned
+                                    Assigned Tasks
                                 </h3>
                                 <div
                                     style={{
