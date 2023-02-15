@@ -16,7 +16,24 @@ import {
 import { Row, Col, Card } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import "./Company.css";
+import { useFormik } from 'formik';
+import { validationSchema } from "./validation";
 // import Table from "./TableView/Table";
+
+const initialValue={
+  companyName: "",
+  shortName: "",
+  contactName: "",
+  phoneNo: "",
+  landLineNo: "",
+  registrationNo: "",
+  city: "",
+  country: "",
+  postalCode: "",
+  address: "",
+  email: "",
+  
+}
 const Company = () => {
   const [companies, setCompanies] = useState([]);
   const [file, setfile] = useState();
@@ -67,37 +84,74 @@ const Company = () => {
     setCreateCompany((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const submitCreateCompanyHandler = async () => {
-    try {
-      const data = new FormData();
-      console.log("company", createCompany.companyName);
-      console.log("shortname", createCompany.shortName);
-      data.append("companyName", createCompany.companyName);
-      data.append("contactName", createCompany.contactName);
-      data.append("address", createCompany.address);
-      data.append("phoneNo", createCompany.phoneNo);
-      data.append("country", createCompany.country);
-      data.append("city", createCompany.city);
-      data.append("registrationNo", createCompany.registrationNo);
-      data.append("landLineNo", createCompany.landLineNo);
-      data.append("email", createCompany.email);
-      data.append("shortName", createCompany.shortName);
-      data.append("postalCode", createCompany.postalCode);
-      data.append("logo", file);
+  // const submitCreateCompanyHandler = async () => {
+  //   try {
+  //     const data = new FormData();
+  //     console.log("company", createCompany.companyName);
+  //     console.log("shortname", createCompany.shortName);
+  //     data.append("companyName", createCompany.companyName);
+  //     data.append("contactName", createCompany.contactName);
+  //     data.append("address", createCompany.address);
+  //     data.append("phoneNo", createCompany.phoneNo);
+  //     data.append("country", createCompany.country);
+  //     data.append("city", createCompany.city);
+  //     data.append("registrationNo", createCompany.registrationNo);
+  //     data.append("landLineNo", createCompany.landLineNo);
+  //     data.append("email", createCompany.email);
+  //     data.append("shortName", createCompany.shortName);
+  //     data.append("postalCode", createCompany.postalCode);
+  //     data.append("logo", file);
 
-      const addCompany = await axios.post(
-        `${originURL}/companies/addcompany`,
-        data
-      );
-      addCompany && NotificationManager.success("Successfully Added");
-    } catch (err) {
-      console.log(err);
+  //     const addCompany = await axios.post(
+  //       `${originURL}/companies/addcompany`,
+  //       data
+  //     );
+  //     addCompany && NotificationManager.success("Successfully Added");
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  //   setCreateCompany("");
+  //   setfile("");
+  //   handleClose();
+  //   setUpdate(!update);
+  // };
+
+  const {values,touched,handleChange,handleBlur,handleSubmit,errors} = useFormik({
+    initialValues:initialValue,
+    validationSchema:validationSchema,
+    onSubmit:async (values,action) => {
+      try {
+        const data = new FormData();
+        console.log("company", values.companyName);
+        console.log("shortname", values.shortName);
+        data.append("companyName", values.companyName);
+        data.append("contactName", values.contactName);
+        data.append("address", values.address);
+        data.append("phoneNo", values.phoneNo);
+        data.append("country", values.country);
+        data.append("city", values.city);
+        data.append("registrationNo", values.registrationNo);
+        data.append("landLineNo", values.landLineNo);
+        data.append("email", values.email);
+        data.append("shortName", values.shortName);
+        data.append("postalCode", values.postalCode);
+        data.append("logo", file);
+  
+        const addCompany = await axios.post(
+          `${originURL}/companies/addcompany`,
+          data
+        );
+        addCompany && NotificationManager.success("Successfully Added");
+      } catch (err) {
+        console.log(err);
+      }
+      handleClose();
+      setUpdate(!update);
+      action.resetForm()
     }
-    setCreateCompany("");
-    setfile("");
-    handleClose();
-    setUpdate(!update);
-  };
+    
+  })
+  console.log("erros",errors)
   return (
     <div
       className="content-wrapper"
@@ -240,7 +294,7 @@ const Company = () => {
                 <Container>
                   <Row>
                     <Col>
-                      <label style={{ color: "grey" }} for="Name">
+                      <label style={{ color: "grey" }} htmlFor="companyName">
                         Name:
                       </label>
                       <br></br>
@@ -249,12 +303,16 @@ const Company = () => {
                         type="text"
                         placeholder="company name"
                         name="companyName"
-                        value={createCompany.companyName}
-                        onChange={createCompanyHandler}
+                        // value={createCompany.companyName}
+                        // onChange={createCompanyHandler}
+                        value={values.companyName}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
+                      {errors.companyName && touched.companyName ? (<p style={{color:"red"}}>{errors.companyName}</p>):null}
                     </Col>
                     <Col>
-                      <label style={{ color: "grey" }} for="sName">
+                      <label style={{ color: "grey" }} htmlFor="shortName">
                         {" "}
                         Short Name:
                       </label>
@@ -264,16 +322,20 @@ const Company = () => {
                         type="text"
                         placeholder="short name"
                         name="shortName"
-                        value={createCompany.shortName}
-                        onChange={createCompanyHandler}
+                        // value={createCompany.shortName}
+                        // onChange={createCompanyHandler}
+                        value={values.shortName}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
+                      {errors.shortName && touched.shortName ? (<p style={{color:'red'}}>{errors.shortName}</p>):null}
                     </Col>
                   </Row>
                   <Row>
                     <Col>
                       <label
                         style={{ color: "grey", marginTop: "1%" }}
-                        for="cName"
+                        htmlFor="contactName"
                       >
                         {" "}
                         Contact Name:
@@ -284,14 +346,18 @@ const Company = () => {
                         type="text"
                         placeholder="contact name"
                         name="contactName"
-                        value={createCompany.contactName}
-                        onChange={createCompanyHandler}
+                        // value={createCompany.contactName}
+                        // onChange={createCompanyHandler}
+                        value={values.contactName}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
+                      {errors.contactName && touched.contactName ? (<p style={{color:'red'}}>{errors.contactName}</p>):null}
                     </Col>
                     <Col>
                       <label
                         style={{ color: "grey", marginTop: "1%" }}
-                        for="phone"
+                        htmlFor="phoneNo"
                       >
                         {" "}
                         Phone No:
@@ -303,21 +369,25 @@ const Company = () => {
                         required
                         placeholder="phone no"
                         name="phoneNo"
-                        value={createCompany.phoneNo}
+                        // value={createCompany.phoneNo}
                         onInput={(e) => {
                           e.target.value = Math.max(0, parseInt(e.target.value))
                             .toString()
                             .slice(0, 11);
                         }}
-                        onChange={createCompanyHandler}
+                        // onChange={createCompanyHandler}
+                        value={values.phoneNo}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
+                      {errors.phoneNo && touched.phoneNo ? (<p style={{color:"red"}}>{errors.phoneNo}</p>):null}
                     </Col>
                   </Row>
                   <Row>
                     <Col>
                       <label
                         style={{ color: "grey", marginTop: "1%" }}
-                        for="landline"
+                        htmlFor="landLineNo"
                       >
                         LandLine No:
                       </label>
@@ -327,14 +397,17 @@ const Company = () => {
                         type="number"
                         placeholder="LandLine no"
                         name="landLineNo"
-                        value={createCompany.landLineNo}
-                        onChange={createCompanyHandler}
+                        // value={createCompany.landLineNo}
+                        // onChange={createCompanyHandler}
+                        value={values.landLineNo}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                     </Col>
                     <Col>
                       <label
                         style={{ color: "grey", marginTop: "1%" }}
-                        for="registration"
+                        htmlFor="registrationNo"
                         className="registrationNo"
                       >
                         {" "}
@@ -344,8 +417,11 @@ const Company = () => {
                       <input
                         placeholder="registration no"
                         name="registrationNo"
-                        value={createCompany.registrationNo}
-                        onChange={createCompanyHandler}
+                        // value={createCompany.registrationNo}
+                        // onChange={createCompanyHandler}
+                        value={values.registrationNo}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                     </Col>
                   </Row>
@@ -353,7 +429,7 @@ const Company = () => {
                     <Col>
                       <label
                         style={{ color: "grey", marginTop: "1%" }}
-                        for="city"
+                        htmlFor="city"
                       >
                         {" "}
                         City:
@@ -364,14 +440,17 @@ const Company = () => {
                         type="text"
                         placeholder="city"
                         name="city"
-                        value={createCompany.city}
-                        onChange={createCompanyHandler}
+                        // value={createCompany.city}
+                        // onChange={createCompanyHandler}
+                        value={values.city}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                     </Col>
                     <Col>
                       <label
                         style={{ color: "grey", marginTop: "1%" }}
-                        for="country"
+                        htmlFor="country"
                         className="country"
                       >
                         Country:
@@ -382,8 +461,11 @@ const Company = () => {
                         type="text"
                         placeholder="country"
                         name="country"
-                        value={createCompany.country}
-                        onChange={createCompanyHandler}
+                        // value={createCompany.country}
+                        // onChange={createCompanyHandler}
+                        value={values.country}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                     </Col>
                   </Row>
@@ -391,7 +473,7 @@ const Company = () => {
                     <Col>
                       <label
                         style={{ color: "grey", marginTop: "1%" }}
-                        for="postal"
+                        htmlFor="postalCode"
                       >
                         Postal Code:
                       </label>
@@ -400,14 +482,17 @@ const Company = () => {
                       <input
                         placeholder="postal code"
                         name="postalCode"
-                        value={createCompany.postalCode}
-                        onChange={createCompanyHandler}
+                        // value={createCompany.postalCode}
+                        // onChange={createCompanyHandler}
+                        value={values.postalCode}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                     </Col>
                     <Col>
                       <label
                         style={{ color: "grey", marginTop: "1%" }}
-                        for="address"
+                        htmlFor="address"
                       >
                         Address:
                       </label>
@@ -415,27 +500,34 @@ const Company = () => {
                       <input
                         placeholder="address"
                         name="address"
-                        value={createCompany.address}
-                        onChange={createCompanyHandler}
+                        // value={createCompany.address}
+                        // onChange={createCompanyHandler}
+                        value={values.address}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                     </Col>
                   </Row>
                   <Row>
                     <Col>
-                      <label style={{ color: "grey", marginTop: "1%" }}>
+                      <label style={{ color: "grey", marginTop: "1%" }} htmlFor="email">
                         Email:
                       </label>
                       <br></br>
                       <input
                         placeholder="email"
                         name="email"
-                        value={createCompany.email}
-                        onChange={createCompanyHandler}
+                        // value={createCompany.email}
+                        // onChange={createCompanyHandler}
+                        value={values.email}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
+                      {errors.email && touched.email ? (<p style={{color:'red'}}>{errors.email}</p>):null}
                     </Col>
                     <Col>
                       <label
-                        for="logo"
+                        htmlFor="logo"
                         style={{ color: "grey", marginTop: "1%" }}
                       >
                         Upload Logo:
@@ -510,7 +602,7 @@ const Company = () => {
                     fontWeight: "700",
                   }}
                   variant="primary"
-                  onClick={submitCreateCompanyHandler}
+                  onClick={handleSubmit}
                 >
                   Submit
                 </Button>

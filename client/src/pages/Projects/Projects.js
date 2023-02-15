@@ -76,12 +76,7 @@ const Projects = () => {
 
     useEffect(() => {
 
-
         {
-
-
-
-
 
             if (JSON.parse(localStorage.getItem("timesheet_user437")).isAdmin) {
 
@@ -103,9 +98,7 @@ document.title='Projects'
 
     }, [update]);
 
-
     console.log("reqprop", requestedProperties)
-
     function descendingComparator(a, b, orderBy) {
         if (b[orderBy] < a[orderBy]) {
             return -1;
