@@ -45,7 +45,7 @@ const Header = ({ setAuth }) => {
               <a href="../../index3.html" className="nav-link">Home</a>
             </li> */}
             <li className="nav-item d-none d-sm-inline-block">
-              <i class="fa-solid  fa-fade"> <a className="nav-link" style={{color:'white',fontStyle:'italic',marginTop:'4px'}}><h5> H e l l o :</h5></a></i>
+              <i className="fa-solid  fa-fade"> <a className="nav-link" style={{color:'white',fontStyle:'italic',marginTop:'4px'}}><h5> H e l l o :</h5></a></i>
             </li>
           </ul>
 
@@ -60,6 +60,28 @@ const Header = ({ setAuth }) => {
                 }
               </h5>
             )}
+
+
+
+{/* <ul className="navbar-nav">
+          
+            {/* {/* <li className="nav-item d-none d-sm-inline-block">
+              <a href="../../index3.html" className="nav-link">Home</a>
+            </li> */}
+            {/* <li className="nav-item d-none d-sm-inline-block">
+              <i className="fa-solid  fa-fade"> <a className="nav-link" style={{color:'white',fontStyle:'italic',marginTop:'4px'}}><h5> Company :</h5></a></i>
+            </li>
+          </ul>  */}
+
+            {/* {JSON.parse(localStorage.getItem("timesheet_user437")) &&
+            JSON.parse(localStorage.getItem("timesheet_user437")).details && (
+              <h5 style={{ marginTop: "0.5%", color: "white" }}>
+                {" "}
+                {
+                  JSON.parse(localStorage.getItem("timesheet_user437")).details.companies &&  JSON.parse(localStorage.getItem("timesheet_user437")).details.companies.companyName 
+                }
+              </h5>
+            )} */}
 
           {/* <!-- Right navbar links --> */}
           <ul className="navbar-nav ml-auto mr-5">

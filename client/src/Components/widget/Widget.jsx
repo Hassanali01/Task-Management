@@ -119,9 +119,9 @@ const Widget = ({ type }) => {
   }
 
   return (
-    <div className="widget" style={{backgroundColor:"white", marginRight:"5px" }}>
+    <div className="widget" style={{backgroundColor:"white", marginRight:"5px"}}>
       <div className="left">
-        <span className="title">{data.title}</span>
+        <span className="title" style={{ color:"#354A54"}}>{data.title}</span>
         <span className="counter">
           {data.title=='USERS' && users.length}
           {data.title=='PROJECTS' && projects.length}

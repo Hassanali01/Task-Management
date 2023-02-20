@@ -65,6 +65,8 @@ const AssignTasks = () => {
 
     const [taskStatus, setTaskStatus] = useState("");
 
+    const [frequency,setFrequency] = useState("")
+
 
 
 
@@ -127,9 +129,9 @@ const AssignTasks = () => {
 
     useEffect(() => {
 
-        axios.get(`${originURL}/assigntask/alltasks`).then((res) => {
-            setTasks(res.data.get);
-        });
+      
+
+        
 
         axios.get(`${originURL}/projects/${taskUser}`).then((res) => {
             setProjects(res.data.finduser);
@@ -540,6 +542,15 @@ const AssignTasks = () => {
                                                 <textarea placeholder="Task Description" style={{ width: "100%" }} onChange={(e) => setTaskDescription(e.target.value)}></textarea>
                                                 <br /><br />
 
+                                                <select style={{width:'100%', marginBottom:'10px'}} onChange={(e)=>setFrequency(e.target.value)}>
+                                                    <option value="none" selected disabled hidden> Task frequency..</option>
+                                                    <option value="Daily">Daily</option>
+                                                    <option value="weekly">Weekly</option>
+                                                    <option value="Monthly">Monthly</option>
+                                                </select>
+
+                                                <br></br>
+
                                                 <label for="appt">Expected Start Date: &nbsp;</label>
                                                 <input type="date" style={{ width: "100%" }} defaultValue={moment(new Date).format("D-MMM-yyyy")} onChange={(e) => {
                                                     setExpectedTaskStartDate(new Date(e.target.value))
@@ -599,7 +610,8 @@ const AssignTasks = () => {
                                                         startDate: expectedTaskStartDate,
                                                         endDate: expectedTaskEndDate,
                                                         assignedTo: taskUser,
-                                                        status: taskStatus
+                                                        status: taskStatus,
+                                                        frequency: frequency
                                                     } :
 
                                                         {
@@ -610,7 +622,8 @@ const AssignTasks = () => {
                                                             startDate: expectedTaskStartDate,
                                                             endDate: expectedTaskEndDate,
                                                             assignedTo: taskUser,
-                                                            status: taskStatus
+                                                            status: taskStatus,
+                                                            frequency:frequency
                                                         }
 
 

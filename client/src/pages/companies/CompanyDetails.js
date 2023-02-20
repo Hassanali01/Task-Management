@@ -16,8 +16,16 @@ import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
+import {useFormik} from 'formik'
 import DeleteIcon from "@mui/icons-material/Delete";
+import { keys } from "@mui/system";
+import { departmentValidation } from "./validation";
 
+const initialState={
+  department:'',
+  role:'',
+  description:''
+}
 const CompanyDetails = () => {
   const url = "/companies/";
   const url1 = "/departments/";
@@ -63,6 +71,37 @@ const CompanyDetails = () => {
     logo: companyData.logo,
   });
 
+  const {values,errors,handleChange,handleBlur,touched,handleSubmit} = useFormik({
+    initialValues:initialState,
+    validationSchema:departmentValidation,
+    onSubmit:async (values,action) => {
+      try {
+        const addedUser = await axios.post(
+          `${originURL}${url1}`,
+          {
+            name: values.department,
+            role: values.role,
+            description: values.description,
+            company: data._id,
+          }
+        );
+        action.resetForm()
+
+        handleClose();
+        setUpdate(!update);
+      } catch (err) {
+        console.log(err);
+      }
+      // setDepartment("")
+      // setRole("")
+      // setDescription("")
+      // setCompanyDetails("");
+    }
+    
+})
+    
+  
+
 
   const handleInput = (e) => {
     let name, value;
@@ -73,7 +112,7 @@ const CompanyDetails = () => {
     setData({ ...data, [name]: value });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit1 = async () => {
     // e.preventDefault();
     // const url = `${data._id}`;
 
@@ -177,7 +216,7 @@ const CompanyDetails = () => {
                   &nbsp; &nbsp;
                   <Button
                     onClick={() => {
-                      handleSubmit();
+                      handleSubmit1();
                       setDisableFields(true);
                       
                     }}
@@ -191,7 +230,7 @@ const CompanyDetails = () => {
               <Container>
                 <Row>
                   <Col>
-                    <label style={{ color: "grey" }} for="Name">
+                    <label style={{ color: "grey" }} htmlFor="Name">
                       Name:
                     </label>
                     <br></br>
@@ -206,7 +245,7 @@ const CompanyDetails = () => {
                     />
                   </Col>
                   <Col>
-                    <label style={{ color: "grey" }} for="sName">
+                    <label style={{ color: "grey" }} htmlFor="sName">
                       {" "}
                       Short Name:
                     </label>
@@ -222,7 +261,7 @@ const CompanyDetails = () => {
                     />
                   </Col>
                   <Col>
-                    <label style={{ color: "grey" }} for="cName">
+                    <label style={{ color: "grey" }} htmlFor="cName">
                       {" "}
                       Contact Name:
                     </label>
@@ -238,7 +277,7 @@ const CompanyDetails = () => {
                     />
                   </Col>
                   <Col>
-                    <label style={{ color: "grey" }} for="phone">
+                    <label style={{ color: "grey" }} htmlFor="phone">
                       {" "}
                       Phone No:
                     </label>
@@ -266,7 +305,7 @@ const CompanyDetails = () => {
 
                 <Row>
                   <Col>
-                    <label style={{ color: "grey" }} for="landline">
+                    <label style={{ color: "grey" }} htmlFor="landline">
                       LandLine No:
                     </label>
                     <br></br>
@@ -283,7 +322,7 @@ const CompanyDetails = () => {
                   <Col>
                     <label
                       style={{ color: "grey", marginTop: "2%" }}
-                      for="registration"
+                      htmlFor="registration"
                     >
                       {" "}
                       Registration No:
@@ -300,7 +339,7 @@ const CompanyDetails = () => {
                   <Col>
                     <label
                       style={{ color: "grey", marginTop: "2%" }}
-                      for="city"
+                      htmlFor="city"
                     >
                       {" "}
                       City:
@@ -319,7 +358,7 @@ const CompanyDetails = () => {
                   <Col>
                     <label
                       style={{ color: "grey", marginTop: "2%" }}
-                      for="country"
+                      htmlFor="country"
                     >
                       Country:
                     </label>
@@ -340,7 +379,7 @@ const CompanyDetails = () => {
                   <Col>
                     <label
                       style={{ color: "grey", marginTop: "2%" }}
-                      for="postal"
+                      htmlFor="postal"
                     >
                       Postal Code:
                     </label>
@@ -357,7 +396,7 @@ const CompanyDetails = () => {
                   <Col>
                     <label
                       style={{ color: "grey", marginTop: "2%" }}
-                      for="address"
+                      htmlFor="address"
                     >
                       Address:
                     </label>
@@ -372,7 +411,7 @@ const CompanyDetails = () => {
                   </Col>
 
                   <Col>
-                    <label style={{ color: "grey", marginTop: "1%" }}>
+                    <label style={{ color: "grey", marginTop: "1%" }} htmlFor="email">
                       Email:
                     </label>
                     <br></br>
@@ -387,7 +426,7 @@ const CompanyDetails = () => {
                   </Col>
                   <Col>
                     <label
-                      for="logo"
+                      htmlFor="logo"
                       style={{ color: "grey", marginTop: "1%" }}
                     >
                       Company Logo:
@@ -508,10 +547,15 @@ const CompanyDetails = () => {
                       <Row>
                         {console.log(("console123", getDepartments))}
                         {getDepartments.map((d, i) => {
+                          
+                          
                           console.log("get d", d);
 
                           return (
-                            <>
+                            
+                            <div key={d._id}>
+                            
+                            
                               <Col xs="12" xl="3" lg="4" md="6" sm="6">
                                 <Card>
                                   <Card.Title
@@ -529,6 +573,7 @@ const CompanyDetails = () => {
                                   <Card.Body>
                                     <Card.Text
                                       style={{ justifyContent: "center" }}
+                                     
                                     >
                                       <span style={{ fontWeight: "bold" }}>
                                         Name:&nbsp;
@@ -565,7 +610,7 @@ const CompanyDetails = () => {
                                             });
                                         }}
                                       >
-                                        <i class="bi bi-trash"></i>
+                                        <i className="bi bi-trash"></i>
                                       </Button>
                                     
                                     </div>
@@ -573,7 +618,7 @@ const CompanyDetails = () => {
                                   </Card.Body>
                                 </Card>
                               </Col>
-                            </>
+                            </div>
                           );
                         })}
                       </Row>
@@ -600,11 +645,15 @@ const CompanyDetails = () => {
                         placeholder="department name"
                         // value={department}
                         name="department"
-                        value={companyDetails.department}
+                        // value={companyDetails.department}
                         // onChange={(e) => setDepartment(e.target.value)}
-                        onChange={companyDetailsHandler}
+                        // onChange={companyDetailsHandler}
+                        value={values.department}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                         autoFocus
                       />
+                      {errors.department && touched.department ? (<p style={{color:'red'}}>{errors.department}</p>):null}
                     </Form.Group>
                     <Form.Group
                       className="mb-3"
@@ -616,9 +665,12 @@ const CompanyDetails = () => {
                         placeholder="Role"
                         name="role"
                         // value={role}
-                        value={companyDetails.role}
-                        onChange={companyDetailsHandler}
+                        // value={companyDetails.role}
+                        // onChange={companyDetailsHandler}
                         // onChange={(e) => setRole(e.target.value)}
+                        value={values.role}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                     </Form.Group>
                     <Form.Group
@@ -630,10 +682,13 @@ const CompanyDetails = () => {
                         as="textarea"
                         rows={3}
                         name="description"
-                        value={companyDetails.description}
-                        onChange={companyDetailsHandler}
+                        // value={companyDetails.description}
+                        // onChange={companyDetailsHandler}
                         // value={descripton}
                         // onChange={(e)=>setDescription(e.target.value)}
+                        value={values.description}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                     </Form.Group>
                   </Form>
@@ -644,28 +699,29 @@ const CompanyDetails = () => {
                   </Button>
                   <Button
                     variant="primary"
-                    onClick={async () => {
-                      try {
-                        const addedUser = await axios.post(
-                          `${originURL}${url1}`,
-                          {
-                            name: companyDetails.department,
-                            role: companyDetails.role,
-                            description: companyDetails.description,
-                            company: data._id,
-                          }
-                        );
+                    // onClick={async () => {
+                    //   try {
+                    //     const addedUser = await axios.post(
+                    //       `${originURL}${url1}`,
+                    //       {
+                    //         name: companyDetails.department,
+                    //         role: companyDetails.role,
+                    //         description: companyDetails.description,
+                    //         company: data._id,
+                    //       }
+                    //     );
 
-                        handleClose();
-                        setUpdate(!update);
-                      } catch (err) {
-                        console.log(err);
-                      }
-                      // setDepartment("")
-                      // setRole("")
-                      // setDescription("")
-                      setCompanyDetails("");
-                    }}
+                    //     handleClose();
+                    //     setUpdate(!update);
+                    //   } catch (err) {
+                    //     console.log(err);
+                    //   }
+                    //   // setDepartment("")
+                    //   // setRole("")
+                    //   // setDescription("")
+                    //   setCompanyDetails("");
+                    // }}
+                    onClick={handleSubmit}
                   >
                     Add
                   </Button>

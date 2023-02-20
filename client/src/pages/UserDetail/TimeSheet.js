@@ -131,6 +131,8 @@ const TimeSheet = (props) => {
   // const [editRole, setEditRole] = useState(propDetail.role);
 
   useEffect(() => {
+    let getData=true
+    if (getData){
     axios
       .get(`${originURL}/tasks/alltaskscompany/${selectedCompany}`)
       .then((res) => {
@@ -141,6 +143,10 @@ const TimeSheet = (props) => {
       setCompanies(res.data.companies);
     });
     document.title='TimeSheet'
+  }
+  return(()=>{
+    getData=false
+  })
   }, [update]);
   console.log("name", tasks);
 
@@ -724,6 +730,44 @@ const TimeSheet = (props) => {
       className="content-wrapper"
       style={{ backgroundColor: "#f7f7f7", paddingTop: "50px", height: "90%" }}
     >
+       <Container
+        style={{ marginTop: "50px", marginBottom: "80px", height: "90%" }}
+      >
+        <Box>
+          <Paper
+            sx={{
+              width: "100%",
+              mb: 2,
+              padding: "30px",
+              paddingBottom: "20px",
+            }}
+          >
+             <div style={{ display:'flex',
+                      justifyContent:'center'}}>
+
+              <input
+                    id="tableSearch"
+                    onChange={(e) => {
+                      console.log("projects", projects);
+                      setFilteredRequestedProperties(e.target.value);
+                    }}
+                    className="form-control "
+                    placeholder="Search"
+                    style={{
+                      width: "700px",
+                      border: "none",
+                      backgroundColor: "#f0f0f0",
+                      marginRight: "30px",
+                     
+                      // marginTop: "1.5rem",
+                    }}
+                  ></input>
+                  </div>
+
+          </Paper>
+          </Box>
+          </Container>
+      
       <Container
         style={{ marginTop: "50px", marginBottom: "80px", height: "90%" }}
       >
@@ -747,28 +791,13 @@ const TimeSheet = (props) => {
                   Timesheet
                 </h3>
 
-                <select style={{height:"40px",marginLeft:'5%',width:'30%'}}
-                  onClick={(e) => {
-                    console.log("dropdown", e.target.value);
-
-                    setSelectedCompany(e.target.value);
-
-                    console.log("selected comapany", selectedCompany);
-
-                    setUpdate(!update);
-                  }}
-                >
-                  {companies.map((c) => (
-                    <option value={c._id}>{c.companyName}</option>
-                  ))}
-                </select>
-
-                <div style={{ display:"flex", height:"40px",marginLeft:'5%'}}>
+               
+                <div style={{ display:"flex", height:"40px",marginLeft:'15%',justifyContent:'center'}}>
                   <label style={{ marginTop:"6px"}}>From:&nbsp;&nbsp;</label>
                   <input
                     id="date"
                     type="date"
-                    style={{ width: "200%" }}
+                    style={{ width: "250px" }}
                     defaultValue={moment(new Date(minDate)).format(
                       "YYYY-MM-DD"
                     )}
@@ -779,12 +808,12 @@ const TimeSheet = (props) => {
                   />
                   {console.log("setMinDate", minDate)}
                 </div>
-                <div style={{ display:"flex", height:"40px", marginLeft:'5%' }}>
+                <div style={{ display:"flex", height:"40px", marginLeft:'5%',justifyContent:'center' }}>
                   <label style={{ marginTop:"6px"}}>To:&nbsp;&nbsp;</label>
                   <input
                     id="date"
                     type="date"
-                    style={{ width: "200%" }}
+                    style={{ width: "250px" }}
                     defaultValue={moment(new Date(maxDate)).format(
                       "YYYY-MM-DD"
                     )}
@@ -802,6 +831,7 @@ const TimeSheet = (props) => {
                     display: "flex",
                     marginTop: "0px",
                     paddingRight: "10px",
+                    marginLeft:'4%'
                   }}
                 >
                    
@@ -863,7 +893,7 @@ const TimeSheet = (props) => {
                 <br />
             
               </div>
-              <div style={{ display:'flex',
+              {/* <div style={{ display:'flex',
                       justifyContent:'center',marginTop:'2%'}}>
               <input
                     id="tableSearch"
@@ -882,7 +912,24 @@ const TimeSheet = (props) => {
                       // marginTop: "1.5rem",
                     }}
                   ></input>
-                  </div>
+                  </div> */}
+                  <div style={{display:'flex',justifyContent:'center'}}>
+                   <select style={{height:"40px",marginLeft:'5%',width:'30%',marginTop:'2%'}}
+                  onClick={(e) => {
+                    console.log("dropdown", e.target.value);
+
+                    setSelectedCompany(e.target.value);
+
+                    console.log("selected comapany", selectedCompany);
+
+                    setUpdate(!update);
+                  }}
+                >
+                  {companies.map((c) => (
+                    <option key={companies._id} value={c._id}>{c.companyName}</option>
+                  ))}
+                </select>
+                </div>
               <Table
                 sx={{ minWidth: 750, maxHeight: 250 }}
                 aria-labelledby="tableTitle"

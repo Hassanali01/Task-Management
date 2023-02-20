@@ -21,7 +21,7 @@ import Modal from "react-bootstrap/Modal";
 import { useLocation, useParams } from "react-router-dom";
 import { visuallyHidden } from "@mui/utils";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import axios from "axios";
 import { Container } from "react-bootstrap";
 import originURL from "../../url";
@@ -85,24 +85,33 @@ const Users = () => {
   const handleShow = () => setShow(true);
 
   const item = useLocation();
- 
+ const duplication = useRef(false)
   const propDetail = item.state || {};
 
   useEffect(() => {
+  if (duplication.current) return;
+  duplication.current = true
     axios
       .get(
         `${originURL}/users/allusers/`
       )
       .then((res) => {
+       
         setUsers(res.data.users);
+      
       });
     axios.get(`${originURL}/${url}`).then((res) => {
+
       setCompanyDetails(res.data.companies);
+    
     });
+
+ console.log("running")
+    document.title='Users'
+  
     // axios.get(`${originURL}${url1}`).then((res) => {
     //   setDepartments(res.data.department);
     // });
-    document.title='Users'
   }, [update]);
 
   function descendingComparator(a, b, orderBy) {
@@ -398,7 +407,7 @@ const Users = () => {
                         variant="success"
                         onClick={handleShow}
                       >
-                       <span> Add User <i class="fa-solid fa-desktop-arrow-down fa-fade"> <i class="fa-solid fa-user-plus"></i></i></span>
+                       <span> Add User <i class="fa-solid fa-desktop-arrow-down fa-fade"> <i className="fa-solid fa-user-plus"></i></i></span>
                       </Button>{" "}
                     </div>
                   )}
@@ -452,7 +461,7 @@ const Users = () => {
                                   <label>Password:</label>
             <div style={{display:'flex'}}>
              
-                    <input type={passwordType} onChange={(e)=>setPassword(e.target.value)}  name="password" class="form-control" placeholder="password..." style={{width:'100%'}}/>
+                    <input type={passwordType} onChange={(e)=>setPassword(e.target.value)}  name="password" className="form-control" placeholder="password..." style={{width:'100%'}}/>
          
                      <button onClick={togglePassword} style={{border:'none'}}>
                      { passwordType==="password"? <i className="bi bi-eye-slash"></i> :<i className="bi bi-eye"></i> }
@@ -484,7 +493,7 @@ const Users = () => {
                                   
                                   {companyDetails &&
                                     companyDetails.map((d) => (
-                                      <option value={`${d._id}`}                                  
+                                      <option value={`${d._id}`} key={d._id}                             
                                        
 
                                         
@@ -515,7 +524,7 @@ const Users = () => {
 
                                   {departments &&
                                     departments.map((d) => (
-                                      <option value={`${d._id}`}>
+                                      <option value={`${d._id}`} key={d._id}>
                                         {d.name}
                                       </option>
                                     ))}

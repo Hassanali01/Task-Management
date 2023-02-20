@@ -571,7 +571,7 @@ const Company = () => {
                           style={{ display: "none" }}
                           id="uploadpic"
                           onChange={(e) => {
-                            console.log("e", e);
+                            console.log("e target value file", e.target.files[0]);
                             setfile(e.target.files[0]);
                           }}
                         />

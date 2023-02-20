@@ -228,7 +228,7 @@ const DailyTasks = () => {
         };
 
         return (
-            <TableHead>
+            <TableHead style={{backgroundColor:'#99AEBB'}}>
                 <TableRow>
                     {headCells.map((headCell) => (
                         <TableCell
@@ -242,7 +242,7 @@ const DailyTasks = () => {
                                 active={orderBy === headCell.id}
                                 direction={orderBy === headCell.id ? order : "asc"}
                                 onClick={createSortHandler(headCell.id)}
-                                style={{ fontWeight: "600" }}
+                                style={{ fontWeight: "700" }}
                             >
                                 {headCell.label}
                                 {"orderBy" === headCell.id ? (
@@ -389,11 +389,11 @@ const DailyTasks = () => {
 
         <div className='content-wrapper' style={{ backgroundColor: '#f7f7f7', paddingTop: "50px" }}>
             <Container style={{ marginTop: "50px", marginBottom: "50px" }}>
-                <Box sx={{ width: "95%" }}>
-                    <Paper className="p-4" sx={{ width: "100%", mb: 2 }}>
+                <Box >
+                    <Paper sx={{ width: "100%", mb: 2 }}>
 
-                        <TableContainer >
-                            <div className="d-flex ml-3 mt-3 mb-1">
+                        <TableContainer style={{padding:"0px"}} >
+                            <div className="d-flex pt-3 pl-3 pr-3" style={{backgroundColor:'#99AEBB', borderTopLeftRadius:"5px",  borderTopRightRadius:"5px"  }}>
                                 <h3
                                     className="mr-5"
                                     style={{ marginTop: "0px", marginBottom: "0px" }}
